@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÌTÀN — Atlas of African Peoples</title>
+<meta name="author" content="Israel Adigun — Software Developer, UWM grad">
+<meta name="description" content="A living atlas of African peoples, kingdoms and histories — every word fetched live from open archives.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#131730;
+  --indigo:#222B55;
+  --indigo-2:#2E3A6E;
+  --indigo-3:#3C4A85;
+  --ochre:#E09B3D;
+  --gold:#F2C063;
+  --clay:#C75B33;
+  --raffia:#F2E6CB;
+  --raffia-dim:#C9BFA6;
+  --line:rgba(242,230,203,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{
+  background:var(--night);
+  color:var(--raffia);
+  font-family:'Spectral',Georgia,serif;
+  line-height:1.65;
+  overflow-x:hidden;
+}
+::selection{background:var(--ochre);color:var(--night)}
+a{color:var(--gold)}
+button{font:inherit;cursor:pointer}
+img{max-width:100%;display:block}
+.mono{font-family:'IBM Plex Mono',monospace}
+.disp{font-family:'Bricolage Grotesque',sans-serif}
+
+/* ---------- adire pattern bands (generated, not imagery) ---------- */
+.band{
+  height:14px;width:100%;
+  background:
+    repeating-linear-gradient(135deg, var(--ochre) 0 8px, transparent 8px 16px),
+    repeating-linear-gradient(45deg, var(--clay) 0 8px, transparent 8px 16px);
+  opacity:.55;
+}
+.band.thin{height:7px;opacity:.4}
+
+/* ---------- shell ---------- */
+.shell{max-width:1100px;margin:0 auto;padding:0 22px}
+header.top{
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  padding:22px 0 18px;border-bottom:1px solid var(--line);
+}
+.brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;letter-spacing:.02em;color:var(--raffia);text-decoration:none}
+.brand b{color:var(--ochre)}
+.tagline{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--raffia-dim)}
+nav.top-nav{margin-left:auto;display:flex;gap:10px}
+.nav-btn{
+  background:transparent;border:1px solid var(--line);color:var(--raffia);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  padding:8px 14px;border-radius:999px;transition:border-color .2s,background .2s;
+}
+.nav-btn:hover,.nav-btn[aria-current="true"]{border-color:var(--ochre);background:rgba(224,155,61,.12)}
+.nav-btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* ---------- hero / map scene ---------- */
+.hero{padding:46px 0 12px;text-align:center}
+.hero h1{
+  font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+  font-size:clamp(34px,6.4vw,64px);line-height:1.02;letter-spacing:-.01em;
+}
+.hero h1 em{font-style:normal;color:var(--ochre)}
+.hero p{max-width:560px;margin:14px auto 0;color:var(--raffia-dim);font-size:17px}
+.hero p b{color:var(--raffia)}
+
+.scene{
+  perspective:1200px;
+  margin:18px auto 0;
+  max-width:760px;
+  touch-action:pan-y;
+}
+.map-stack{
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform .25s ease-out;
+  aspect-ratio:1000/1100;
+  margin:0 auto;
+}
+.layer{position:absolute;inset:0;transform-style:preserve-3d}
+.layer svg{width:100%;height:100%;overflow:visible}
+.l-shadow{transform:translateZ(-70px) scale(1.02);filter:blur(14px);opacity:.55}
+.l-base{transform:translateZ(0)}
+.l-mid{transform:translateZ(34px);opacity:.5}
+.l-top{transform:translateZ(64px)}
+.l-pins{transform:translateZ(92px)}
+
+.pin{
+  position:absolute;transform:translate(-50%,-50%);
+  background:transparent;border:none;color:var(--raffia);
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+.pin .dot{
+  width:13px;height:13px;border-radius:50%;
+  background:var(--ochre);
+  box-shadow:0 0 0 4px rgba(224,155,61,.25),0 0 18px rgba(224,155,61,.5);
+  animation:breathe 3.2s ease-in-out infinite;
+}
+.pin:nth-child(odd) .dot{animation-delay:1.4s}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+.pin .tag{
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(19,23,48,.85);border:1px solid var(--line);padding:3px 8px;border-radius:3px;
+  opacity:0;transform:translateY(-4px);transition:opacity .18s,transform .18s;white-space:nowrap;
+}
+.pin:hover .tag,.pin:focus-visible .tag{opacity:1;transform:translateY(0)}
+.pin:focus-visible .dot{outline:2px solid var(--gold);outline-offset:3px}
+@media (max-width:640px){.pin .tag{opacity:1;transform:none;font-size:8.5px;padding:2px 5px}}
+
+.map-hint{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--raffia-dim);text-align:center;margin-top:6px}
+
+/* ---------- featured rail ---------- */
+.section-head{display:flex;align-items:baseline;gap:14px;margin:54px 0 18px;flex-wrap:wrap}
+.section-head h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(22px,3.6vw,32px)}
+.section-head .k{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ochre)}
+.section-head .right{margin-left:auto}
+
+.rail{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{
+  background:linear-gradient(160deg,var(--indigo) 0%,var(--indigo-2) 100%);
+  border:1px solid var(--line);border-radius:6px;overflow:hidden;
+  text-align:left;color:var(--raffia);padding:0;display:flex;flex-direction:column;
+  transition:transform .2s,border-color .2s;
+}
+.card:hover{transform:translateY(-4px);border-color:var(--ochre)}
+.card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.card .thumb{height:140px;background:var(--indigo-3);position:relative;overflow:hidden}
+.card .thumb img{width:100%;height:100%;object-fit:cover}
+.card .thumb .ph{position:absolute;inset:0;background:
+  repeating-linear-gradient(45deg,rgba(242,230,203,.06) 0 10px,transparent 10px 20px)}
+.card .body{padding:14px 16px 16px}
+.card h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;margin-bottom:3px}
+.card .region{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ochre)}
+.card p{font-size:13.5px;color:var(--raffia-dim);margin-top:8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ---------- loading / status ---------- */
+.status{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--raffia-dim);padding:34px 0;text-align:center;
+}
+.status .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--ochre);border-right-color:transparent;border-radius:50%;animation:rot 1s linear infinite;vertical-align:-2px;margin-right:10px}
+@keyframes rot{to{transform:rotate(360deg)}}
+.notice{
+  border:1px solid var(--clay);background:rgba(199,91,51,.12);
+  padding:14px 18px;border-radius:6px;font-size:14px;margin:18px 0;
+}
+
+/* ---------- profile ---------- */
+.p-hero{
+  position:relative;min-height:340px;border-radius:8px;overflow:hidden;
+  border:1px solid var(--line);margin-top:26px;
+  display:flex;align-items:flex-end;
+}
+.p-hero .bg{position:absolute;inset:0;background-size:cover;background-position:center 30%;transform:scale(1.06);will-change:transform}
+.p-hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,23,48,.25) 0%,rgba(19,23,48,.92) 88%)}
+.p-hero .pat{position:absolute;left:0;right:0;top:0;height:10px;background:
+  repeating-linear-gradient(90deg,var(--ochre) 0 16px,var(--clay) 16px 32px,transparent 32px 48px);opacity:.8}
+.p-hero .inner{position:relative;padding:28px;width:100%}
+.p-hero h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,6vw,58px);line-height:1}
+.p-hero .desc{color:var(--raffia-dim);font-size:16px;margin-top:6px;max-width:640px}
+.p-hero .meta{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ochre);margin-bottom:8px}
+
+.prose{max-width:720px;margin:0 auto;font-size:17px}
+.prose h3{
+  font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:22px;
+  margin:38px 0 10px;color:var(--gold);
+}
+.prose p{margin-bottom:16px}
+.prose .lede::first-letter{
+  font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:3.4em;
+  float:left;line-height:.82;margin:4px 10px 0 0;color:var(--ochre);
+}
+.read-more{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em}
+
+/* ---------- timeline ---------- */
+.tl-wrap{border:1px solid var(--line);border-radius:6px;background:var(--indigo);padding:20px;margin:16px 0 8px;overflow-x:auto}
+.tl-axis{position:relative;height:18px;border-bottom:1px dashed var(--line);min-width:560px;margin-bottom:14px}
+.tl-axis span{position:absolute;top:0;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--raffia-dim)}
+.tl-row{display:grid;grid-template-columns:170px 1fr;gap:12px;align-items:center;min-width:560px;margin-bottom:10px}
+.tl-row .nm{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.04em;color:var(--raffia)}
+.tl-row .track{position:relative;height:16px}
+.tl-row .bar{
+  position:absolute;height:100%;border-radius:3px;
+  background:linear-gradient(90deg,var(--clay),var(--ochre));
+  box-shadow:0 0 12px rgba(224,155,61,.35);min-width:6px;
+}
+.tl-row .yr{position:absolute;top:-2px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--raffia-dim);white-space:nowrap}
+
+/* ---------- kingdom cards ---------- */
+.k-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.k-card{background:var(--indigo);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+.k-card .thumb{height:150px;background:var(--indigo-3)}
+.k-card .thumb img{width:100%;height:100%;object-fit:cover}
+.k-card .body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
+.k-card h4{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:700}
+.k-card .dates{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--ochre);margin:2px 0 8px;text-transform:uppercase}
+.k-card p{font-size:13.5px;color:var(--raffia-dim);flex:1}
+.k-card a{font-family:'IBM Plex Mono',monospace;font-size:11px;margin-top:10px}
+
+/* ---------- index ---------- */
+.search{
+  width:100%;max-width:480px;background:var(--indigo);border:1px solid var(--line);
+  color:var(--raffia);font:inherit;font-size:16px;padding:12px 16px;border-radius:6px;margin:8px 0 20px;
+}
+.search:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.idx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.idx-item{
+  background:var(--indigo);border:1px solid var(--line);border-left:3px solid var(--ochre);
+  border-radius:4px;padding:12px 14px;color:var(--raffia);text-align:left;transition:transform .15s,border-color .15s;
+}
+.idx-item:hover{transform:translateY(-2px);border-color:var(--gold)}
+.idx-item:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.idx-item .nm{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px}
+.idx-item .c{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--raffia-dim);margin-top:3px}
+
+.back{
+  background:transparent;border:1px solid var(--line);color:var(--raffia);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  padding:8px 16px;border-radius:999px;margin:24px 0 0;
+}
+.back:hover{border-color:var(--ochre)}
+
+footer{
+  margin-top:80px;border-top:1px solid var(--line);padding:26px 0 50px;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--raffia-dim);
+  text-align:center;line-height:2;
+}
+footer a{color:var(--raffia-dim)}
+</style>
+</head>
+<body>
+
+<div class="band" aria-hidden="true"></div>
+
+<div class="shell">
+  <header class="top">
+    <a class="brand" href="#/">ÌT<b>À</b>N</a>
+    <span class="tagline">Atlas of African Peoples</span>
+    <nav class="top-nav" aria-label="Primary">
+      <button class="nav-btn" data-nav="home">Map</button>
+      <button class="nav-btn" data-nav="index">All Peoples</button>
+      <button class="nav-btn" data-nav="about">About</button>
+    </nav>
+  </header>
+
+  <main id="app" aria-live="polite"></main>
+
+  <footer>
+    ÌTÀN · built by Israel Adigun — Software Developer, UWM grad<br>
+    All text &amp; imagery fetched live from <a href="https://en.wikipedia.org" rel="noopener">Wikipedia</a> &amp;
+    <a href="https://www.wikidata.org" rel="noopener">Wikidata</a> · CC BY-SA 4.0 · nothing stored, nothing rewritten<br>
+    ìtàn (Yorùbá): <i>history; the telling of what happened</i>
+  </footer>
+</div>
+
+<noscript><p style="padding:30px;text-align:center">ÌTÀN needs JavaScript to consult the archives.</p></noscript>
+
+<script>
+/* =========================================================
+   ÌTÀN — all content fetched live. The registry below is
+   routing only: names, map positions, and article pointers.
+   ========================================================= */
+const REGISTRY = [
+  {name:'Yoruba',  title:'Yoruba people',  region:'West Africa',     x:333, y:452,  k:['Oyo Empire','Ife','Ijebu Kingdom']},
+  {name:'Igbo',    title:'Igbo people',    region:'West Africa',     x:375, y:482,  k:['Kingdom of Nri','Aro Confederacy','Igbo-Ukwu']},
+  {name:'Hausa',   title:'Hausa people',   region:'West Africa',     x:389, y:392,  k:['Hausa Kingdoms','Sokoto Caliphate','Kano Emirate']},
+  {name:'Ashanti', title:'Ashanti people', region:'West Africa',     x:257, y:472,  k:['Ashanti Empire','Kumasi','Golden Stool']},
+  {name:'Wolof',   title:'Wolof people',   region:'West Africa',     x:56,  y:347,  k:['Jolof Empire','Cayor','Waalo']},
+  {name:'Zulu',    title:'Zulu people',    region:'Southern Africa', x:708, y:1002, k:['Zulu Kingdom','Shaka','Anglo-Zulu War']},
+  {name:'Shona',   title:'Shona people',   region:'Southern Africa', x:708, y:844,  k:['Great Zimbabwe','Kingdom of Mutapa','Rozvi Empire']},
+  {name:'Amhara',  title:'Amhara people',  region:'Horn of Africa',  x:806, y:399,  k:['Ethiopian Empire','Kingdom of Aksum','Gondar']},
+  {name:'Oromo',   title:'Oromo people',   region:'Horn of Africa',  x:819, y:460,  k:['Gadaa','Kingdom of Jimma','Oromia']},
+  {name:'Swahili', title:'Swahili people', region:'East Africa',     x:826, y:663,  k:['Kilwa Sultanate','Swahili coast','Sultanate of Zanzibar']},
+  {name:'Amazigh', title:'Berbers',        region:'North Africa',    x:208, y:105,  k:['Numidia','Almoravid dynasty','Almohad Caliphate']},
+  {name:'Tuareg',  title:'Tuareg people',  region:'Sahara & Sahel',  x:361, y:271,  k:['Sultanate of Aïr','Timbuktu','Trans-Saharan trade']},
+];
+
+/* ---------- continent geometry (design, not content) ---------- */
+const AFRICA = "M194,30 L319,18 L417,15 L493,98 L514,105 L556,89 L611,90 L694,102 L722,105 L729,121 L747,163 L794,277 L826,338 L879,383 L903,416 L944,402 L990,395 L971,452 L907,542 L868,578 L829,633 L823,675 L836,727 L843,791 L790,842 L761,871 L769,933 L730,963 L708,1023 L633,1084 L556,1097 L533,1083 L526,1070 L506,1003 L479,918 L447,801 L464,762 L461,705 L449,663 L400,583 L408,566 L412,512 L325,475 L275,490 L222,493 L128,478 L94,445 L88,429 L61,393 L35,351 L49,331 L42,256 L57,215 L94,164 L144,115 L172,66 L183,60 Z";
+const MADAGASCAR = "M962,755 L976,814 L938,946 L905,958 L879,908 L889,821 L948,773 Z";
+
+/* ---------- API helpers ---------- */
+const cache = new Map();
+async function getJSON(url, opts){
+  if(cache.has(url)) return cache.get(url);
+  const r = await fetch(url, opts);
+  if(!r.ok) throw new Error('HTTP '+r.status+' for '+url);
+  const j = await r.json();
+  cache.set(url, j);
+  return j;
+}
+const summary = t => getJSON('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(t));
+const extract = async t => {
+  const j = await getJSON('https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=1&exsectionformat=wiki&redirects=1&format=json&origin=*&titles='+encodeURIComponent(t));
+  const pages = j.query && j.query.pages;
+  const pg = pages && pages[Object.keys(pages)[0]];
+  return (pg && pg.extract) || '';
+};
+async function sparql(q){
+  return getJSON('https://query.wikidata.org/sparql?format=json&query='+encodeURIComponent(q),
+    {headers:{'Accept':'application/sparql-results+json'}});
+}
+function wikiURL(t){ return 'https://en.wikipedia.org/wiki/'+encodeURIComponent(t.replace(/ /g,'_')); }
+
+/* ---------- utilities ---------- */
+const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function year(v){ const m = /^(-?\d+)/.exec(v); return m ? parseInt(m[1],10) : null; }
+function fmtYear(y){ if(y==null) return '—'; return y<0 ? (-y)+' BCE' : y+' CE'; }
+function sections(text){
+  // split wiki-format plaintext into {heading, body}
+  const parts = text.split(/\n==([^=].*?)==\n/);
+  const out = [{h:'Overview', b:parts[0].trim()}];
+  for(let i=1;i<parts.length;i+=2){
+    out.push({h:parts[i].trim(), b:(parts[i+1]||'').replace(/\n===.*?===\n/g,'\n').trim()});
+  }
+  return out;
+}
+const WANT = ['history','origin','origins','precolonial','pre-colonial','culture','religion','society','language','art'];
+function pickSections(secs){
+  return secs.filter(s => WANT.some(w => s.h.toLowerCase().includes(w)) && s.b.length>200).slice(0,3);
+}
+function clip(s, n){ if(s.length<=n) return s; const cut=s.slice(0,n); return cut.slice(0,cut.lastIndexOf('. ')+1) || cut; }
+function paras(s){ return s.split(/\n+/).filter(p=>p.trim().length>0); }
+
+const FAIL_NOTE = `<div class="notice"><b>The archive couldn't be reached.</b> If you're viewing this inside a sandboxed preview, external requests may be blocked — open the file in your browser or visit the deployed site and the shelves open right up.</div>`;
+
+/* ---------- router ---------- */
+const app = document.getElementById('app');
+window.addEventListener('hashchange', route);
+document.querySelectorAll('[data-nav]').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    location.hash = b.dataset.nav==='index' ? '#/peoples'
+                  : b.dataset.nav==='about' ? '#/about' : '#/';
+  });
+});
+function setNav(which){
+  document.querySelectorAll('[data-nav]').forEach(b=>{
+    b.setAttribute('aria-current', (b.dataset.nav===which)?'true':'false');
+  });
+}
+function route(){
+  const h = location.hash || '#/';
+  if(h.startsWith('#/people/')){ renderProfile(decodeURIComponent(h.slice(9))); }
+  else if(h.startsWith('#/peoples')){ renderIndex(); }
+  else if(h.startsWith('#/about')){ renderAbout(); }
+  else { renderHome(); }
+  window.scrollTo(0,0);
+}
+
+/* ---------- HOME ---------- */
+function mapSVG(fill, stroke, sw, patternId){
+  const pat = patternId ? `url(#${patternId})` : fill;
+  return `<svg viewBox="0 0 1000 1100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    ${patternId?`<defs><pattern id="${patternId}" width="26" height="26" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="26" height="26" fill="${fill}"/>
+      <rect width="13" height="26" fill="rgba(242,230,203,.05)"/>
+    </pattern></defs>`:''}
+    <path d="${AFRICA}" fill="${pat}" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round"/>
+    <path d="${MADAGASCAR}" fill="${pat}" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round"/>
+  </svg>`;
+}
+function renderHome(){
+  setNav('home');
+  app.innerHTML = `
+    <section class="hero">
+      <h1>The continent,<br>told by its <em>peoples</em>.</h1>
+      <p>Not borders. Not colonies. <b>Peoples</b> — their kingdoms, their migrations, their art.
+      Every word on these pages is fetched live from open archives the moment you ask.</p>
+    </section>
+
+    <div class="scene" id="scene">
+      <div class="map-stack" id="stack">
+        <div class="layer l-shadow">${mapSVG('#0A0D20','none',0)}</div>
+        <div class="layer l-base">${mapSVG('#222B55','rgba(242,230,203,.25)',2,'patA')}</div>
+        <div class="layer l-mid">${mapSVG('#2E3A6E','none',0,'patB')}</div>
+        <div class="layer l-top">${mapSVG('none','rgba(224,155,61,.55)',2.5)}</div>
+        <div class="layer l-pins" id="pins"></div>
+      </div>
+    </div>
+    <p class="map-hint">Drag your eyes across the land — select a people to open their story</p>
+
+    <div class="section-head">
+      <span class="k">Featured</span><h2>Twelve peoples, one continent</h2>
+      <span class="right"><button class="nav-btn" id="go-index">Browse all peoples →</button></span>
+    </div>
+    <div class="rail" id="rail"></div>
+  `;
+  document.getElementById('go-index').addEventListener('click', ()=>location.hash='#/peoples');
+
+  // pins
+  const pins = document.getElementById('pins');
+  REGISTRY.forEach(p=>{
+    const b = document.createElement('button');
+    b.className = 'pin';
+    b.style.left = (p.x/1000*100)+'%';
+    b.style.top  = (p.y/1100*100)+'%';
+    b.setAttribute('aria-label', p.name+' — open profile');
+    b.innerHTML = `<span class="tag">${esc(p.name)}</span><span class="dot"></span>`;
+    b.addEventListener('click', ()=>location.hash='#/people/'+encodeURIComponent(p.title));
+    pins.appendChild(b);
+  });
+
+  // tilt
+  const stack = document.getElementById('stack');
+  const scene = document.getElementById('scene');
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    scene.addEventListener('pointermove', e=>{
+      const r = scene.getBoundingClientRect();
+      const dx = (e.clientX - r.left)/r.width - .5;
+      const dy = (e.clientY - r.top)/r.height - .5;
+      stack.style.transform = `rotateX(${(-dy*10).toFixed(2)}deg) rotateY(${(dx*12).toFixed(2)}deg)`;
+    });
+    scene.addEventListener('pointerleave', ()=>{ stack.style.transform = 'rotateX(0) rotateY(0)'; });
+  }
+
+  // featured cards — summaries fetched live
+  const rail = document.getElementById('rail');
+  rail.innerHTML = `<div class="status"><span class="spin"></span>Consulting the archives…</div>`;
+  Promise.allSettled(REGISTRY.map(p=>summary(p.title))).then(results=>{
+    rail.innerHTML = '';
+    let okCount = 0;
+    results.forEach((res,i)=>{
+      const p = REGISTRY[i];
+      const card = document.createElement('button');
+      card.className = 'card';
+      if(res.status==='fulfilled'){
+        okCount++;
+        const s = res.value;
+        const img = s.thumbnail ? `<img src="${esc(s.thumbnail.source)}" alt="" loading="lazy">` : `<div class="ph"></div>`;
+        card.innerHTML = `<div class="thumb">${img}</div>
+          <div class="body"><span class="region">${esc(p.region)}</span><h3>${esc(p.name)}</h3>
+          <p>${esc(s.extract||'')}</p></div>`;
+      } else {
+        card.innerHTML = `<div class="thumb"><div class="ph"></div></div>
+          <div class="body"><span class="region">${esc(p.region)}</span><h3>${esc(p.name)}</h3>
+          <p>Profile loads when the archive is reachable.</p></div>`;
+      }
+      card.addEventListener('click', ()=>location.hash='#/people/'+encodeURIComponent(p.title));
+      rail.appendChild(card);
+    });
+    if(okCount===0){ rail.insertAdjacentHTML('beforebegin', FAIL_NOTE); }
+  });
+}
+
+/* ---------- PROFILE ---------- */
+async function renderProfile(title){
+  setNav('');
+  const reg = REGISTRY.find(r=>r.title===title);
+  app.innerHTML = `<div class="status"><span class="spin"></span>Opening the story of ${esc(reg?reg.name:title)}…</div>`;
+  let s;
+  try { s = await summary(title); }
+  catch(e){
+    app.innerHTML = FAIL_NOTE + `<button class="back" onclick="location.hash='#/'">← Back to the map</button>`;
+    return;
+  }
+  const heroImg = s.originalimage ? s.originalimage.source : (s.thumbnail ? s.thumbnail.source : '');
+  app.innerHTML = `
+    <div class="p-hero">
+      ${heroImg?`<div class="bg" id="phbg" style="background-image:url('${esc(heroImg)}')"></div>`:''}
+      <div class="veil"></div><div class="pat"></div>
+      <div class="inner">
+        <div class="meta">${esc(reg?reg.region:'Africa')} · live from the open archive</div>
+        <h1>${esc(s.title||title)}</h1>
+        <p class="desc">${esc(s.description||'')}</p>
+      </div>
+    </div>
+    <div class="band thin" style="margin:22px 0" aria-hidden="true"></div>
+    <article class="prose" id="prose">
+      <p class="lede">${esc(s.extract||'')}</p>
+      <div class="status" id="more"><span class="spin"></span>Turning the deeper pages…</div>
+    </article>
+    <div id="kingdoms"></div>
+    <button class="back" onclick="history.length>1?history.back():location.hash='#/'">← Back</button>
+  `;
+
+  // gentle parallax on hero image
+  const bg = document.getElementById('phbg');
+  if(bg && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    addEventListener('scroll', ()=>{ bg.style.transform = `scale(1.06) translateY(${Math.min(scrollY*0.08,40)}px)`; }, {passive:true});
+  }
+
+  // deeper sections
+  try{
+    const full = await extract(title);
+    const chosen = pickSections(sections(full));
+    const more = document.getElementById('more');
+    more.outerHTML = chosen.map(sec=>`
+      <h3>${esc(sec.h)}</h3>
+      ${paras(clip(sec.b, 1900)).map(p=>`<p>${esc(p)}</p>`).join('')}
+    `).join('') + `<p class="read-more"><a href="${wikiURL(title)}" rel="noopener">Read the full record on Wikipedia →</a></p>`;
+  }catch(e){
+    const more = document.getElementById('more');
+    if(more) more.outerHTML = `<p class="read-more"><a href="${wikiURL(title)}" rel="noopener">Read the full record on Wikipedia →</a></p>`;
+  }
+
+  // kingdoms & polities + timeline
+  if(reg && reg.k.length){
+    const kd = document.getElementById('kingdoms');
+    kd.innerHTML = `
+      <div class="section-head"><span class="k">Kingdoms · Polities · Legacies</span>
+      <h2>What the ${esc(reg.name)} built</h2></div>
+      <div class="status" id="kstat"><span class="spin"></span>Unsealing the chronicles…</div>
+      <div id="ktl"></div><div class="k-grid" id="kgrid"></div>`;
+
+    const [sums, dates] = await Promise.all([
+      Promise.allSettled(reg.k.map(t=>summary(t))),
+      fetchDates(reg.k).catch(()=>null)
+    ]);
+    document.getElementById('kstat').remove();
+
+    // timeline
+    if(dates && dates.length){
+      const dated = dates.filter(d=>d.start!=null);
+      if(dated.length){
+        const min = Math.min(...dated.map(d=>d.start));
+        const max = Math.max(...dated.map(d=>d.end!=null?d.end:new Date().getFullYear()));
+        const span = Math.max(max-min,1);
+        const pos = y => ((y-min)/span*100);
+        const ticks = [min, min+span*0.33, min+span*0.66, max].map(Math.round);
+        document.getElementById('ktl').innerHTML = `<div class="tl-wrap">
+          <div class="tl-axis">${ticks.map(t=>`<span style="left:${pos(t)}%">${fmtYear(t)}</span>`).join('')}</div>
+          ${dated.map(d=>{
+            const e = d.end!=null?d.end:max;
+            return `<div class="tl-row"><span class="nm">${esc(d.name)}</span>
+              <span class="track"><span class="bar" style="left:${pos(d.start)}%;width:${Math.max(pos(e)-pos(d.start),1)}%"></span>
+              <span class="yr" style="left:${pos(d.start)}%">${fmtYear(d.start)}${d.end!=null?' – '+fmtYear(d.end):''}</span></span></div>`;
+          }).join('')}
+        </div>`;
+      }
+    }
+
+    // cards
+    const grid = document.getElementById('kgrid');
+    sums.forEach((res,i)=>{
+      const t = reg.k[i];
+      const el = document.createElement('div');
+      el.className = 'k-card';
+      if(res.status==='fulfilled'){
+        const ks = res.value;
+        const d = dates && dates.find(x=>x.title===t);
+        el.innerHTML = `<div class="thumb">${ks.thumbnail?`<img src="${esc(ks.thumbnail.source)}" alt="" loading="lazy">`:''}</div>
+          <div class="body"><h4>${esc(ks.title||t)}</h4>
+          <div class="dates">${d&&d.start!=null?fmtYear(d.start)+(d.end!=null?' — '+fmtYear(d.end):' — present'):'\u00A0'}</div>
+          <p>${esc(clip(ks.extract||'',300))}</p>
+          <a href="${wikiURL(t)}" rel="noopener">Full record →</a></div>`;
+      } else {
+        el.innerHTML = `<div class="thumb"></div><div class="body"><h4>${esc(t)}</h4><p>Record unavailable right now.</p></div>`;
+      }
+      grid.appendChild(el);
+    });
+  }
+}
+
+async function fetchDates(titles){
+  const values = titles.map(t=>`<https://en.wikipedia.org/wiki/${encodeURIComponent(t.replace(/ /g,'_'))}>`).join(' ');
+  const q = `SELECT ?article ?itemLabel ?start ?end WHERE {
+    VALUES ?article { ${values} }
+    ?article schema:about ?item .
+    OPTIONAL { ?item wdt:P571 ?start }
+    OPTIONAL { ?item wdt:P576 ?end }
+    OPTIONAL { ?item wdt:P582 ?end }
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  }`;
+  const j = await sparql(q);
+  const map = new Map();
+  j.results.bindings.forEach(b=>{
+    const url = b.article.value;
+    const t = decodeURIComponent(url.split('/wiki/')[1]).replace(/_/g,' ');
+    if(!map.has(t)) map.set(t, {
+      title:t, name:(b.itemLabel&&b.itemLabel.value)||t,
+      start: b.start?year(b.start.value):null,
+      end:   b.end?year(b.end.value):null
+    });
+  });
+  return titles.map(t=>map.get(t)).filter(Boolean);
+}
+
+/* ---------- INDEX (dynamic tier) ---------- */
+let INDEX_DATA = null;
+async function renderIndex(){
+  setNav('index');
+  app.innerHTML = `
+    <div class="section-head" style="margin-top:34px"><span class="k">The long roll</span>
+    <h2>Every people the archive knows</h2></div>
+    <p style="color:var(--raffia-dim);max-width:640px">Discovered live from Wikidata — peoples indigenous to the African continent,
+    ordered by how widely the world has written about them. The list grows as the archive grows.</p>
+    <input class="search" id="q" type="search" placeholder="Search peoples — Fon, Maasai, San, Tigray…" aria-label="Search peoples">
+    <div id="list"><div class="status"><span class="spin"></span>Calling the roll — this query walks the whole continent…</div></div>
+  `;
+  const list = document.getElementById('list');
+  try{
+    if(!INDEX_DATA){
+      const q = `SELECT DISTINCT ?item ?itemLabel ?article (SAMPLE(?cl) AS ?country) (MAX(?sl) AS ?links) WHERE {
+        ?item wdt:P31 wd:Q41710 .
+        { ?item wdt:P2341 ?c . } UNION { ?item wdt:P17 ?c . }
+        ?c wdt:P30 wd:Q15 .
+        ?c rdfs:label ?cl . FILTER(LANG(?cl)="en")
+        ?item wikibase:sitelinks ?sl .
+        ?article schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> .
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      } GROUP BY ?item ?itemLabel ?article ORDER BY DESC(?links) LIMIT 400`;
+      const j = await sparql(q);
+      const seen = new Set();
+      INDEX_DATA = j.results.bindings.map(b=>({
+        qid: b.item.value.split('/').pop(),
+        name: b.itemLabel.value,
+        country: b.country ? b.country.value : '',
+        title: decodeURIComponent(b.article.value.split('/wiki/')[1]).replace(/_/g,' ')
+      })).filter(x=>{ if(seen.has(x.qid)) return false; seen.add(x.qid); return !/^Q\d+$/.test(x.name); });
+    }
+    drawIndex(INDEX_DATA);
+    document.getElementById('q').addEventListener('input', e=>{
+      const v = e.target.value.trim().toLowerCase();
+      drawIndex(INDEX_DATA.filter(x=>x.name.toLowerCase().includes(v)||x.country.toLowerCase().includes(v)));
+    });
+  }catch(e){
+    list.innerHTML = FAIL_NOTE;
+  }
+  function drawIndex(rows){
+    list.innerHTML = `<p class="mono" style="font-size:11px;letter-spacing:.1em;color:var(--raffia-dim);margin-bottom:12px">${rows.length} PEOPLES ON THE ROLL</p>
+      <div class="idx-grid">${rows.map(x=>`
+      <button class="idx-item" data-t="${esc(x.title)}">
+        <div class="nm">${esc(x.name)}</div>
+        <div class="c">${esc(x.country||'Africa')}</div>
+      </button>`).join('')}</div>`;
+    list.querySelectorAll('.idx-item').forEach(b=>{
+      b.addEventListener('click', ()=>location.hash='#/people/'+encodeURIComponent(b.dataset.t));
+    });
+  }
+}
+
+function renderAbout(){
+  setNav('about');
+  app.innerHTML = `
+    <div class="section-head" style="margin-top:34px">
+      <span class="k">About</span><h2>Why ÌTÀN exists</h2>
+    </div>
+    <article class="prose">
+      <p class="lede">Most history apps tell Africa's story through borders drawn
+      by other people. ÌTÀN starts where the story actually starts — with the
+      peoples themselves. The Yoruba before Nigeria. The Zulu before the colony.
+      The kingdoms, migrations, and art that the map lines were drawn over.</p>
+      <p>Nothing here is written by us. Every word, image, and date is fetched
+      live from open archives — Wikipedia and Wikidata — the moment you ask for
+      it. We built the lens; the record speaks for itself.</p>
+      <h3>Who we are</h3>
+      <p><b>Israel Adigun</b> — Software Developer. Computer Science,
+      University of Wisconsin–Milwaukee.</p>
+      <p><b>Afolabi Raheem Kehinde</b> — Medical graduate, Kursk State
+      Medical University.</p>
+      <p>Two graduates, one shared idea: the continent's history deserves an
+      atlas built around its peoples.</p>
+    </article>
+    <button class="back" onclick="location.hash='#/'">← Back to the map</button>`;
+}
+
+route();
+</script>
+</body>
+</html>
