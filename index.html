@@ -11,239 +11,337 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --night:#131730;
-  --indigo:#222B55;
-  --indigo-2:#2E3A6E;
-  --indigo-3:#3C4A85;
-  --ochre:#E09B3D;
-  --gold:#F2C063;
-  --clay:#C75B33;
-  --raffia:#F2E6CB;
-  --raffia-dim:#C9BFA6;
-  --line:rgba(242,230,203,.18);
+  --coal:#191210; --coal-2:#251A14; --coal-3:#33241A;
+  --cream:#FFF3DC; --cream-dim:#CDB99A;
+  --line:rgba(255,243,220,.16);
+  --ink-on-accent:#191210;
+  --west:#FFB938; --south:#FF6B57; --horn:#3DDC97;
+  --east:#45D8E0; --north:#B388FF; --sahara:#FF9B45;
+  --map-shadow:#0C0806; --map-base:#2E2118; --map-mid:#3D2C1E;
+  --map-stroke:rgba(255,243,220,.3); --map-contour:rgba(255,185,56,.6); --map-weave:rgba(255,243,220,.05);
+  --veil-top:rgba(25,18,16,.2); --veil-bot:rgba(25,18,16,.93);
+  --opt-bg:rgba(255,243,220,.04);
+  --page-bg:
+    radial-gradient(1100px 500px at 50% -150px, rgba(255,107,87,.14), transparent 65%),
+    radial-gradient(900px 420px at 85% 8%, rgba(179,136,255,.08), transparent 60%),
+    #191210;
+  --sun-glow:
+    radial-gradient(closest-side at 50% 42%, rgba(255,185,56,.22), transparent 60%),
+    radial-gradient(closest-side at 38% 62%, rgba(255,107,87,.16), transparent 62%),
+    radial-gradient(closest-side at 66% 56%, rgba(179,136,255,.12), transparent 60%);
 }
+[data-theme="light"]{
+  --coal:#F6ECD9; --coal-2:#FFF9EE; --coal-3:#EDDDBE;
+  --cream:#2A1B10; --cream-dim:#71593E;
+  --line:rgba(42,27,16,.16);
+  --ink-on-accent:#1D130B;
+  --west:#B07300; --south:#CE3F2A; --horn:#0E8A55;
+  --east:#0A7D89; --north:#6C3FD8; --sahara:#C05708;
+  --map-shadow:#CDB78F; --map-base:#E8D6AE; --map-mid:#DFC795;
+  --map-stroke:rgba(42,27,16,.4); --map-contour:rgba(176,115,0,.7); --map-weave:rgba(42,27,16,.05);
+  --veil-top:rgba(246,236,217,.1); --veil-bot:rgba(246,236,217,.94);
+  --opt-bg:rgba(42,27,16,.04);
+  --page-bg:
+    radial-gradient(1100px 500px at 50% -150px, rgba(206,63,42,.1), transparent 65%),
+    radial-gradient(900px 420px at 85% 8%, rgba(108,63,216,.06), transparent 60%),
+    #F6ECD9;
+  --sun-glow:
+    radial-gradient(closest-side at 50% 42%, rgba(176,115,0,.18), transparent 60%),
+    radial-gradient(closest-side at 38% 62%, rgba(206,63,42,.12), transparent 62%),
+    radial-gradient(closest-side at 66% 56%, rgba(108,63,216,.08), transparent 60%);
+}
+
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
 body{
-  background:var(--night);
-  color:var(--raffia);
-  font-family:'Spectral',Georgia,serif;
-  line-height:1.65;
-  overflow-x:hidden;
+  background:var(--page-bg); color:var(--cream);
+  font-family:'Spectral',Georgia,serif; line-height:1.65;
+  overflow-x:hidden; min-height:100vh; transition:background .35s,color .35s;
 }
-::selection{background:var(--ochre);color:var(--night)}
-a{color:var(--gold)}
+::selection{background:var(--west);color:var(--coal)}
+a{color:var(--west)}
 button{font:inherit;cursor:pointer}
 img{max-width:100%;display:block}
 .mono{font-family:'IBM Plex Mono',monospace}
-.disp{font-family:'Bricolage Grotesque',sans-serif}
-
-/* ---------- adire pattern bands (generated, not imagery) ---------- */
-.band{
-  height:14px;width:100%;
-  background:
-    repeating-linear-gradient(135deg, var(--ochre) 0 8px, transparent 8px 16px),
-    repeating-linear-gradient(45deg, var(--clay) 0 8px, transparent 8px 16px);
-  opacity:.55;
-}
-.band.thin{height:7px;opacity:.4}
+.glow-rule{height:2px;border:none;margin:34px 0;background:linear-gradient(90deg,transparent,var(--west),var(--south),var(--north),transparent);opacity:.7;border-radius:2px}
 
 /* ---------- shell ---------- */
 .shell{max-width:1100px;margin:0 auto;padding:0 22px}
-header.top{
-  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
-  padding:22px 0 18px;border-bottom:1px solid var(--line);
-}
-.brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;letter-spacing:.02em;color:var(--raffia);text-decoration:none}
-.brand b{color:var(--ochre)}
-.tagline{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--raffia-dim)}
-nav.top-nav{margin-left:auto;display:flex;gap:10px}
-.nav-btn{
-  background:transparent;border:1px solid var(--line);color:var(--raffia);
-  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;
-  padding:8px 14px;border-radius:999px;transition:border-color .2s,background .2s;
-}
-.nav-btn:hover,.nav-btn[aria-current="true"]{border-color:var(--ochre);background:rgba(224,155,61,.12)}
-.nav-btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+header.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:22px 0 18px;border-bottom:1px solid var(--line)}
+.brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:27px;color:var(--cream);text-decoration:none}
+.brand b{background:linear-gradient(90deg,var(--west),var(--south));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream-dim)}
+nav.top-nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav-btn{background:var(--opt-bg);border:1px solid var(--line);color:var(--cream);font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;border-radius:999px;transition:.2s}
+.nav-btn:hover{border-color:var(--west);transform:translateY(-1px)}
+.nav-btn[aria-current="true"]{border-color:var(--west);background:color-mix(in srgb,var(--west) 14%, transparent)}
+.nav-btn:focus-visible{outline:2px solid var(--west);outline-offset:2px}
+.progress-chip{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;border:1px solid var(--line);border-radius:999px;padding:8px 14px;color:var(--cream-dim)}
+.progress-chip b{color:var(--west)}
 
-/* ---------- hero / map scene ---------- */
-.hero{padding:46px 0 12px;text-align:center}
-.hero h1{
-  font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
-  font-size:clamp(34px,6.4vw,64px);line-height:1.02;letter-spacing:-.01em;
-}
-.hero h1 em{font-style:normal;color:var(--ochre)}
-.hero p{max-width:560px;margin:14px auto 0;color:var(--raffia-dim);font-size:17px}
-.hero p b{color:var(--raffia)}
-
-.scene{
-  perspective:1200px;
-  margin:18px auto 0;
-  max-width:760px;
-  touch-action:pan-y;
-}
-.map-stack{
-  position:relative;
-  transform-style:preserve-3d;
-  transition:transform .25s ease-out;
-  aspect-ratio:1000/1100;
-  margin:0 auto;
-}
+/* ---------- hero / map (home) ---------- */
+.hero{padding:44px 0 6px;text-align:center}
+.hero h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,6.4vw,66px);line-height:1.02}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--west) 0%,var(--south) 45%,var(--north) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:560px;margin:14px auto 0;color:var(--cream-dim);font-size:17px}
+.hero p b{color:var(--cream)}
+.scene-wrap{position:relative;margin:10px auto 0;max-width:760px}
+.sun{position:absolute;inset:-8% -12%;z-index:0;pointer-events:none;border-radius:50%;background:var(--sun-glow);animation:sunpulse 7s ease-in-out infinite}
+@keyframes sunpulse{0%,100%{opacity:.85;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
+.scene{perspective:1200px;position:relative;z-index:1;touch-action:pan-y}
+.map-stack{position:relative;transform-style:preserve-3d;transition:transform .25s ease-out;aspect-ratio:1000/1100;margin:0 auto}
 .layer{position:absolute;inset:0;transform-style:preserve-3d}
 .layer svg{width:100%;height:100%;overflow:visible}
-.l-shadow{transform:translateZ(-70px) scale(1.02);filter:blur(14px);opacity:.55}
+.l-shadow{transform:translateZ(-70px) scale(1.02);filter:blur(16px);opacity:.6}
 .l-base{transform:translateZ(0)}
-.l-mid{transform:translateZ(34px);opacity:.5}
+.l-mid{transform:translateZ(34px);opacity:.45}
 .l-top{transform:translateZ(64px)}
 .l-pins{transform:translateZ(92px)}
-
-.pin{
-  position:absolute;transform:translate(-50%,-50%);
-  background:transparent;border:none;color:var(--raffia);
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-}
-.pin .dot{
-  width:13px;height:13px;border-radius:50%;
-  background:var(--ochre);
-  box-shadow:0 0 0 4px rgba(224,155,61,.25),0 0 18px rgba(224,155,61,.5);
-  animation:breathe 3.2s ease-in-out infinite;
-}
+.pin{position:absolute;transform:translate(-50%,-50%);background:transparent;border:none;color:var(--cream);display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px}
+.pin .dot{width:14px;height:14px;border-radius:50%;background:var(--pc,var(--west));box-shadow:0 0 0 4px color-mix(in srgb,var(--pc,var(--west)) 28%, transparent),0 0 16px var(--pc,var(--west));animation:breathe 3.2s ease-in-out infinite;position:relative}
+.pin.visited .dot::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;color:var(--ink-on-accent)}
 .pin:nth-child(odd) .dot{animation-delay:1.4s}
-@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
-.pin .tag{
-  font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
-  background:rgba(19,23,48,.85);border:1px solid var(--line);padding:3px 8px;border-radius:3px;
-  opacity:0;transform:translateY(-4px);transition:opacity .18s,transform .18s;white-space:nowrap;
-}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+.pin .tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--coal-2);border:1px solid var(--pc,var(--west));padding:3px 8px;border-radius:4px;opacity:0;transform:translateY(-4px);transition:.18s;white-space:nowrap;color:var(--pc,var(--west))}
 .pin:hover .tag,.pin:focus-visible .tag{opacity:1;transform:translateY(0)}
-.pin:focus-visible .dot{outline:2px solid var(--gold);outline-offset:3px}
-@media (max-width:640px){.pin .tag{opacity:1;transform:none;font-size:8.5px;padding:2px 5px}}
+.pin:focus-visible .dot{outline:2px solid var(--cream);outline-offset:3px}
+@media (hover:none), (max-width:640px){
+  .pin{padding:10px}
+  .pin .dot{width:10px;height:10px;box-shadow:0 0 0 3px color-mix(in srgb,var(--pc,var(--west)) 30%, transparent),0 0 10px var(--pc,var(--west))}
+  .pin .tag{display:none}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+}
+.pin-chip{position:absolute;z-index:5;transform:translate(-50%,-130%);background:var(--coal-2);border:1.5px solid var(--pc,var(--west));border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.pin-chip .nm{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px}
+.pin-chip .go{background:var(--pc,var(--west));color:var(--ink-on-accent);border:none;border-radius:999px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.06em;padding:7px 12px;text-transform:uppercase}
+.map-hint{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cream-dim);text-align:center;margin-top:8px}
 
-.map-hint{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--raffia-dim);text-align:center;margin-top:6px}
-
-/* ---------- featured rail ---------- */
+/* ---------- sections / cards ---------- */
 .section-head{display:flex;align-items:baseline;gap:14px;margin:54px 0 18px;flex-wrap:wrap}
 .section-head h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(22px,3.6vw,32px)}
-.section-head .k{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ochre)}
+.section-head .k{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--west)}
 .section-head .right{margin-left:auto}
-
 .rail{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
-.card{
-  background:linear-gradient(160deg,var(--indigo) 0%,var(--indigo-2) 100%);
-  border:1px solid var(--line);border-radius:6px;overflow:hidden;
-  text-align:left;color:var(--raffia);padding:0;display:flex;flex-direction:column;
-  transition:transform .2s,border-color .2s;
-}
-.card:hover{transform:translateY(-4px);border-color:var(--ochre)}
-.card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.card .thumb{height:140px;background:var(--indigo-3);position:relative;overflow:hidden}
-.card .thumb img{width:100%;height:100%;object-fit:cover}
-.card .thumb .ph{position:absolute;inset:0;background:
-  repeating-linear-gradient(45deg,rgba(242,230,203,.06) 0 10px,transparent 10px 20px)}
+.card{background:var(--coal-2);border:1px solid var(--line);border-top:3px solid var(--pc,var(--west));border-radius:12px;overflow:hidden;text-align:left;color:var(--cream);padding:0;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-5px);box-shadow:0 14px 34px rgba(0,0,0,.25),0 0 0 1px var(--pc,var(--west))}
+.card:focus-visible{outline:2px solid var(--pc,var(--west));outline-offset:2px}
+.card .thumb{height:140px;background:var(--coal-3);position:relative;overflow:hidden}
+.card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+.card:hover .thumb img{transform:scale(1.06)}
 .card .body{padding:14px 16px 16px}
 .card h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;margin-bottom:3px}
-.card .region{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ochre)}
-.card p{font-size:13.5px;color:var(--raffia-dim);margin-top:8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card .region{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--pc,var(--west))}
+.card p{font-size:13.5px;color:var(--cream-dim);margin-top:8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card .seen{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--pc,var(--west));margin-top:8px}
 
-/* ---------- loading / status ---------- */
-.status{
-  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--raffia-dim);padding:34px 0;text-align:center;
-}
-.status .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--ochre);border-right-color:transparent;border-radius:50%;animation:rot 1s linear infinite;vertical-align:-2px;margin-right:10px}
+.status{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dim);padding:34px 0;text-align:center}
+.status .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--west);border-right-color:transparent;border-radius:50%;animation:rot 1s linear infinite;vertical-align:-2px;margin-right:10px}
 @keyframes rot{to{transform:rotate(360deg)}}
-.notice{
-  border:1px solid var(--clay);background:rgba(199,91,51,.12);
-  padding:14px 18px;border-radius:6px;font-size:14px;margin:18px 0;
-}
+.notice{border:1px solid var(--south);background:color-mix(in srgb,var(--south) 10%, transparent);padding:14px 18px;border-radius:10px;font-size:14px;margin:18px 0}
 
-/* ---------- profile ---------- */
-.p-hero{
-  position:relative;min-height:340px;border-radius:8px;overflow:hidden;
-  border:1px solid var(--line);margin-top:26px;
-  display:flex;align-items:flex-end;
-}
+/* ---------- profile / expedition ---------- */
+.p-hero{position:relative;min-height:340px;border-radius:16px;overflow:hidden;border:1px solid var(--line);margin-top:26px;display:flex;align-items:flex-end;box-shadow:0 0 60px color-mix(in srgb,var(--rc,var(--west)) 18%, transparent)}
 .p-hero .bg{position:absolute;inset:0;background-size:cover;background-position:center 30%;transform:scale(1.06);will-change:transform}
-.p-hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,23,48,.25) 0%,rgba(19,23,48,.92) 88%)}
-.p-hero .pat{position:absolute;left:0;right:0;top:0;height:10px;background:
-  repeating-linear-gradient(90deg,var(--ochre) 0 16px,var(--clay) 16px 32px,transparent 32px 48px);opacity:.8}
+.p-hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,var(--veil-top) 0%,var(--veil-bot) 88%)}
+.p-hero .edge{position:absolute;left:0;right:0;top:0;height:5px;background:linear-gradient(90deg,var(--rc,var(--west)),transparent)}
 .p-hero .inner{position:relative;padding:28px;width:100%}
 .p-hero h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,6vw,58px);line-height:1}
-.p-hero .desc{color:var(--raffia-dim);font-size:16px;margin-top:6px;max-width:640px}
-.p-hero .meta{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ochre);margin-bottom:8px}
+.p-hero .desc{color:var(--cream-dim);font-size:16px;margin-top:6px;max-width:640px}
+.p-hero .meta{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--rc,var(--west));margin-bottom:8px}
+
+/* expedition HUD */
+.hud{
+  position:fixed;right:14px;bottom:14px;z-index:60;
+  background:var(--coal-2);border:1.5px solid var(--rc,var(--west));border-radius:14px;
+  padding:10px 14px;box-shadow:0 12px 34px rgba(0,0,0,.4);
+  display:flex;flex-direction:column;gap:6px;min-width:190px;
+}
+.hud .rank{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px}
+.hud .rank .snd{margin-left:auto;background:none;border:none;font-size:15px;opacity:.8}
+.hud .xpline{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--cream-dim);display:flex;justify-content:space-between}
+.hud .xpbar{height:7px;background:var(--coal-3);border-radius:99px;overflow:hidden}
+.hud .xpbar i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--rc,var(--west)),var(--south));border-radius:99px;transition:width .4s}
+.hud .sat{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--rc,var(--west))}
+
+.toast{
+  position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);z-index:70;
+  background:var(--coal-2);border:1.5px solid var(--west);border-radius:999px;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.06em;
+  padding:10px 18px;opacity:0;transition:.25s;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* chapters */
+.chap{border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--coal-2) 70%, transparent);margin:26px 0;overflow:hidden}
+.chap-head{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.chap-head .num{
+  font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px;color:var(--ink-on-accent);
+  background:var(--rc,var(--west));border-radius:8px;padding:5px 9px;
+}
+.chap-head h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(19px,3vw,25px)}
+.chap-head .done{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--cream-dim)}
+.chap-head .done.yes{color:var(--horn)}
+.chap-body{padding:20px}
+.chap-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dim);margin-bottom:14px}
 
 .prose{max-width:720px;margin:0 auto;font-size:17px}
-.prose h3{
-  font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:22px;
-  margin:38px 0 10px;color:var(--gold);
-}
+.prose .lede{font-size:21px;line-height:1.55}
+.prose .lede::first-letter{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:3em;float:left;line-height:.82;margin:4px 10px 0 0;color:var(--rc,var(--west))}
 .prose p{margin-bottom:16px}
-.prose .lede::first-letter{
-  font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:3.4em;
-  float:left;line-height:.82;margin:4px 10px 0 0;color:var(--ochre);
-}
+.reveal{border:1px solid var(--line);border-radius:12px;background:var(--coal-2);margin:14px 0;overflow:hidden}
+.reveal summary{list-style:none;display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px}
+.reveal summary::-webkit-details-marker{display:none}
+.reveal summary .xp-hint{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--rc,var(--west));border:1px solid var(--rc,var(--west));border-radius:99px;padding:2px 8px}
+.reveal summary .arrow{margin-left:auto;color:var(--rc,var(--west));transition:transform .2s;font-family:'IBM Plex Mono',monospace}
+.reveal[open] summary .arrow{transform:rotate(90deg)}
+.reveal summary:hover{background:var(--opt-bg)}
+.reveal .inner{padding:0 18px 18px;color:var(--cream);font-size:16px}
+.reveal .inner p{margin-bottom:14px}
 .read-more{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em}
 
-/* ---------- timeline ---------- */
-.tl-wrap{border:1px solid var(--line);border-radius:6px;background:var(--indigo);padding:20px;margin:16px 0 8px;overflow-x:auto}
-.tl-axis{position:relative;height:18px;border-bottom:1px dashed var(--line);min-width:560px;margin-bottom:14px}
-.tl-axis span{position:absolute;top:0;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--raffia-dim)}
-.tl-row{display:grid;grid-template-columns:170px 1fr;gap:12px;align-items:center;min-width:560px;margin-bottom:10px}
-.tl-row .nm{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.04em;color:var(--raffia)}
-.tl-row .track{position:relative;height:16px}
-.tl-row .bar{
-  position:absolute;height:100%;border-radius:3px;
-  background:linear-gradient(90deg,var(--clay),var(--ochre));
-  box-shadow:0 0 12px rgba(224,155,61,.35);min-width:6px;
+/* artifact words */
+.art{
+  background:none;border:none;padding:0 2px;color:var(--rc,var(--west));font:inherit;
+  border-bottom:2px dashed var(--rc,var(--west));cursor:pointer;border-radius:2px;
+  animation:artglow 2.6s ease-in-out infinite;
 }
-.tl-row .yr{position:absolute;top:-2px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--raffia-dim);white-space:nowrap}
-
-/* ---------- kingdom cards ---------- */
-.k-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-.k-card{background:var(--indigo);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
-.k-card .thumb{height:150px;background:var(--indigo-3)}
-.k-card .thumb img{width:100%;height:100%;object-fit:cover}
-.k-card .body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
-.k-card h4{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:700}
-.k-card .dates{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--ochre);margin:2px 0 8px;text-transform:uppercase}
-.k-card p{font-size:13.5px;color:var(--raffia-dim);flex:1}
-.k-card a{font-family:'IBM Plex Mono',monospace;font-size:11px;margin-top:10px}
-
-/* ---------- index ---------- */
-.search{
-  width:100%;max-width:480px;background:var(--indigo);border:1px solid var(--line);
-  color:var(--raffia);font:inherit;font-size:16px;padding:12px 16px;border-radius:6px;margin:8px 0 20px;
+@keyframes artglow{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 14px color-mix(in srgb,var(--rc,var(--west)) 70%, transparent)}}
+.art.got{border-bottom-style:solid;animation:none;opacity:.9}
+.art.got::after{content:" ✦";font-size:.8em}
+.sheet-wrap{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet{
+  background:var(--coal-2);border:1.5px solid var(--rc,var(--west));border-radius:18px 18px 0 0;
+  width:min(560px,100%);max-height:72vh;overflow:auto;padding:20px 22px 26px;
+  animation:sheetup .25s ease-out;
 }
-.search:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@keyframes sheetup{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.sheet .s-kind{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--rc,var(--west))}
+.sheet h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:23px;margin:4px 0 10px}
+.sheet img{border-radius:10px;max-height:180px;object-fit:cover;width:100%;margin-bottom:12px}
+.sheet p{font-size:15.5px;margin-bottom:12px}
+.sheet .s-close{background:var(--rc,var(--west));color:var(--ink-on-accent);border:none;border-radius:999px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:11px 20px}
+
+/* time machine */
+.tm{padding:4px 0}
+.tm-year{
+  font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,6vw,52px);
+  text-align:center;color:var(--rc,var(--west));line-height:1;margin-bottom:6px;font-variant-numeric:tabular-nums;
+}
+.tm-sub{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dim);margin-bottom:14px}
+.tm input[type=range]{width:100%;accent-color:var(--rc,var(--west));height:30px}
+.tm-rows{margin-top:14px}
+.tm-row{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;margin-bottom:9px}
+.tm-row .nm{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--cream-dim);transition:color .2s}
+.tm-row .track{position:relative;height:14px;background:var(--coal-3);border-radius:99px}
+.tm-row .bar{position:absolute;height:100%;border-radius:99px;background:var(--coal);border:1px solid var(--line);transition:.25s;min-width:6px}
+.tm-row.alive .nm{color:var(--cream);font-weight:700}
+.tm-row.alive .bar{background:linear-gradient(90deg,color-mix(in srgb,var(--rc,var(--west)) 70%, #000 8%),var(--rc,var(--west)));box-shadow:0 0 14px color-mix(in srgb,var(--rc,var(--west)) 55%, transparent);border-color:transparent}
+.tm-row .stamp{position:absolute;right:8px;top:-1px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--cream-dim)}
+.tm-q{margin-top:18px;border-top:1px dashed var(--line);padding-top:16px}
+.tm-q h4{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;margin-bottom:10px}
+.tm-opts{display:flex;gap:10px;flex-wrap:wrap}
+.tm-opt{background:var(--opt-bg);border:1.5px solid var(--line);color:var(--cream);border-radius:999px;padding:11px 22px;font-size:16px;transition:.15s}
+.tm-opt:hover:not([disabled]){border-color:var(--rc,var(--west))}
+.tm-opt.right{border-color:var(--horn);background:color-mix(in srgb,var(--horn) 14%, transparent)}
+.tm-opt.wrong{border-color:var(--south);background:color-mix(in srgb,var(--south) 14%, transparent)}
+.tm-verdict{margin-top:10px;font-size:14.5px;color:var(--cream-dim)}
+
+/* memory match */
+.mm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;max-width:560px}
+.mm-card{aspect-ratio:3/4;perspective:600px;background:none;border:none;padding:0}
+.mm-in{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .4s}
+.mm-card.flip .mm-in{transform:rotateY(180deg)}
+.mm-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:8px;text-align:center}
+.mm-front{background:var(--coal-3);font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;color:var(--rc,var(--west))}
+.mm-back{background:var(--coal-2);transform:rotateY(180deg);font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.4;flex-direction:column;gap:6px}
+.mm-back img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.mm-back .lbl{position:relative;z-index:1;background:color-mix(in srgb,var(--coal) 80%, transparent);border-radius:6px;padding:3px 7px}
+.mm-card.matched .mm-face{border-color:var(--horn);box-shadow:0 0 14px color-mix(in srgb,var(--horn) 50%, transparent)}
+.mm-stats{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--cream-dim);margin:12px 0 0}
+
+/* lightning */
+.lr-start{background:linear-gradient(90deg,var(--rc,var(--west)),var(--south));color:var(--ink-on-accent);border:none;border-radius:999px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:14px 28px}
+.lr-start:hover{transform:translateY(-2px)}
+.lr-timebar{height:9px;background:var(--coal-3);border-radius:99px;overflow:hidden;margin:14px 0}
+.lr-timebar i{display:block;height:100%;background:linear-gradient(90deg,var(--horn),var(--west),var(--south));border-radius:99px}
+.lr-q h4{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(18px,3vw,23px);margin-bottom:12px}
+.lr-opts{display:grid;gap:8px}
+.lr-opt{text-align:left;background:var(--opt-bg);border:1.5px solid var(--line);color:var(--cream);border-radius:10px;padding:12px 16px;font-size:16px;transition:.1s}
+.lr-opt:hover:not([disabled]){border-color:var(--rc,var(--west));transform:translateX(3px)}
+.lr-opt.right{border-color:var(--horn);background:color-mix(in srgb,var(--horn) 14%, transparent)}
+.lr-opt.wrong{border-color:var(--south);background:color-mix(in srgb,var(--south) 14%, transparent)}
+.lr-score{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--cream-dim);display:flex;gap:14px;flex-wrap:wrap}
+.lr-score b{color:var(--rc,var(--west))}
+
+/* completion overlay */
+.fin-wrap{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:20px}
+.fin{
+  background:var(--coal-2);border:2px solid var(--rc,var(--west));border-radius:20px;
+  max-width:480px;width:100%;text-align:center;padding:38px 26px;
+  box-shadow:0 0 80px color-mix(in srgb,var(--rc,var(--west)) 35%, transparent);
+  animation:sheetup .3s ease-out;
+}
+.fin .big{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,6vw,42px);background:linear-gradient(90deg,var(--west),var(--south),var(--north));-webkit-background-clip:text;background-clip:text;color:transparent}
+.fin p{margin:12px 0 20px;font-size:17px}
+.fin .badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.fin .badge{font-family:'IBM Plex Mono',monospace;font-size:11px;border:1px solid var(--rc,var(--west));border-radius:999px;padding:6px 12px;color:var(--rc,var(--west))}
+
+/* quiz page (unchanged systems) */
+.quiz-shell{max-width:680px;margin:0 auto}
+.q-top{display:flex;align-items:center;gap:12px;margin:26px 0 8px;flex-wrap:wrap}
+.q-score,.q-streak{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;border:1px solid var(--line);border-radius:999px;padding:8px 14px}
+.q-streak b{color:var(--south)}
+.q-score b{color:var(--west)}
+.q-bar{height:6px;background:var(--coal-3);border-radius:99px;overflow:hidden;margin:10px 0 24px}
+.q-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--west),var(--south));border-radius:99px;transition:width .3s}
+.q-card{background:var(--coal-2);border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:0 14px 44px rgba(0,0,0,.22)}
+.q-kind{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--west);margin-bottom:10px}
+.q-card h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(20px,3.4vw,27px);line-height:1.25;margin-bottom:18px}
+.q-img{border-radius:12px;overflow:hidden;margin:0 0 18px;max-height:260px}
+.q-img img{width:100%;height:100%;object-fit:cover}
+.q-opts{display:grid;gap:10px}
+.q-opt{text-align:left;background:var(--opt-bg);border:1.5px solid var(--line);color:var(--cream);border-radius:12px;padding:15px 18px;font-size:17px;font-family:'Spectral',serif;transition:.15s}
+.q-opt:hover:not([disabled]){border-color:var(--west);transform:translateX(4px)}
+.q-opt:focus-visible{outline:2px solid var(--west);outline-offset:2px}
+.q-opt.right{border-color:var(--horn);background:color-mix(in srgb,var(--horn) 14%, transparent)}
+.q-opt.wrong{border-color:var(--south);background:color-mix(in srgb,var(--south) 14%, transparent)}
+.q-why{margin-top:16px;font-size:15px;color:var(--cream-dim);border-left:3px solid var(--west);padding-left:14px}
+.q-next{margin-top:18px;background:linear-gradient(90deg,var(--west),var(--south));color:var(--ink-on-accent);border:none;border-radius:999px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:13px 26px}
+.q-next:hover{transform:translateY(-2px)}
+.q-final{text-align:center;padding:40px 20px}
+.q-final .big{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(40px,9vw,72px);background:linear-gradient(90deg,var(--west),var(--south),var(--north));-webkit-background-clip:text;background-clip:text;color:transparent}
+.confetti{position:fixed;width:10px;height:10px;border-radius:2px;z-index:99;pointer-events:none;animation:fall 1.1s ease-in forwards}
+@keyframes fall{to{transform:translateY(46vh) rotate(540deg);opacity:0}}
+
+/* index */
+.search{width:100%;max-width:480px;background:var(--coal-2);border:1.5px solid var(--line);color:var(--cream);font:inherit;font-size:16px;padding:13px 18px;border-radius:12px;margin:8px 0 20px}
+.search:focus-visible{outline:2px solid var(--west);outline-offset:2px;border-color:var(--west)}
 .idx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
-.idx-item{
-  background:var(--indigo);border:1px solid var(--line);border-left:3px solid var(--ochre);
-  border-radius:4px;padding:12px 14px;color:var(--raffia);text-align:left;transition:transform .15s,border-color .15s;
-}
-.idx-item:hover{transform:translateY(-2px);border-color:var(--gold)}
-.idx-item:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.idx-item{background:var(--coal-2);border:1px solid var(--line);border-left:4px solid var(--ac,var(--west));border-radius:10px;padding:13px 15px;color:var(--cream);text-align:left;transition:.15s}
+.idx-item:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.22);border-color:var(--ac,var(--west))}
+.idx-item:focus-visible{outline:2px solid var(--ac,var(--west));outline-offset:2px}
 .idx-item .nm{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px}
-.idx-item .c{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--raffia-dim);margin-top:3px}
+.idx-item .c{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dim);margin-top:3px}
 
-.back{
-  background:transparent;border:1px solid var(--line);color:var(--raffia);
-  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-  padding:8px 16px;border-radius:999px;margin:24px 0 0;
-}
-.back:hover{border-color:var(--ochre)}
+.back,.cta{background:var(--opt-bg);border:1px solid var(--line);color:var(--cream);font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:10px 18px;border-radius:999px;margin:24px 0 0;transition:.15s}
+.back:hover,.cta:hover{border-color:var(--west);transform:translateY(-1px)}
+.cta.hot{background:linear-gradient(90deg,var(--west),var(--south));color:var(--ink-on-accent);border:none;font-weight:700}
 
-footer{
-  margin-top:80px;border-top:1px solid var(--line);padding:26px 0 50px;
-  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--raffia-dim);
-  text-align:center;line-height:2;
+footer{margin-top:80px;border-top:1px solid var(--line);padding:26px 0 50px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--cream-dim);text-align:center;line-height:2}
+footer a{color:var(--cream-dim)}
+
+/* Sharing to socials */
+.share-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.share-btn{
+  background:var(--opt-bg);border:1px solid var(--line);color:var(--cream);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;padding:9px 16px;border-radius:999px;transition:.15s;text-decoration:none;
 }
-footer a{color:var(--raffia-dim)}
+.share-btn:hover{border-color:var(--west);transform:translateY(-1px)}
 </style>
 </head>
 <body>
-
-<div class="band" aria-hidden="true"></div>
 
 <div class="shell">
   <header class="top">
@@ -252,52 +350,118 @@ footer a{color:var(--raffia-dim)}
     <nav class="top-nav" aria-label="Primary">
       <button class="nav-btn" data-nav="home">Map</button>
       <button class="nav-btn" data-nav="index">All Peoples</button>
+      <button class="nav-btn" data-nav="quiz">Quiz</button>
       <button class="nav-btn" data-nav="about">About</button>
+      <span class="progress-chip" id="prog">Explored <b>0</b>/12</span>
     </nav>
   </header>
 
   <main id="app" aria-live="polite"></main>
 
   <footer>
-    ÌTÀN · Israel Adigun (CS, UW–Milwaukee) &amp; Afolabi Raheem Kehinde (Kursk State Medical University)<br>
+    ÌTÀN · Israel Adigun &amp; Afolabi Raheem Kehinde<br>
     All text &amp; imagery fetched live from <a href="https://en.wikipedia.org" rel="noopener">Wikipedia</a> &amp;
     <a href="https://www.wikidata.org" rel="noopener">Wikidata</a> · CC BY-SA 4.0 · nothing stored, nothing rewritten<br>
     ìtàn (Yorùbá): <i>history; the telling of what happened</i>
   </footer>
 </div>
 
+<div class="toast" id="toast"></div>
 <noscript><p style="padding:30px;text-align:center">ÌTÀN needs JavaScript to consult the archives.</p></noscript>
 
 <script>
 /* =========================================================
-   ÌTÀN — all content fetched live. The registry below is
-   routing only: names, map positions, and article pointers.
+   ÌTÀN v4 — Expedition Edition.
+   All content fetched live; registry is routing only.
    ========================================================= */
+
+/* ---------- theme: follows the device, dark by default ---------- */
+function applyTheme(){
+  document.documentElement.dataset.theme =
+    matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
+applyTheme();
+matchMedia('(prefers-color-scheme: light)').addEventListener('change', applyTheme);
+/* ---------- sound (synth, no assets) ---------- */
+let AC=null, soundOn=true;
+function tone(freq, t0, dur, type='sine', vol=.07){
+  const o=AC.createOscillator(), g=AC.createGain();
+  o.type=type; o.frequency.value=freq;
+  g.gain.setValueAtTime(vol, AC.currentTime+t0);
+  g.gain.exponentialRampToValueAtTime(.0001, AC.currentTime+t0+dur);
+  o.connect(g).connect(AC.destination);
+  o.start(AC.currentTime+t0); o.stop(AC.currentTime+t0+dur+.02);
+}
+function sfx(kind){
+  if(!soundOn) return;
+  try{
+    if(!AC) AC = new (window.AudioContext||window.webkitAudioContext)();
+    if(AC.state==='suspended') AC.resume();
+    if(kind==='collect'){ tone(880,0,.12); tone(1320,.08,.14); }
+    if(kind==='right'){ tone(523,0,.1); tone(659,.08,.1); tone(784,.16,.18); }
+    if(kind==='wrong'){ tone(196,0,.2,'sawtooth',.05); }
+    if(kind==='rank'){ [523,659,784,1047].forEach((f,i)=>tone(f,i*.09,.16)); }
+    if(kind==='win'){ [523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.1,.22)); }
+    if(kind==='tick'){ tone(1200,0,.04,'square',.025); }
+  }catch(e){}
+}
+
+/* ---------- regions / registry (routing only) ---------- */
+const REGION_COLOR = {
+  'West Africa':'var(--west)','Southern Africa':'var(--south)','Horn of Africa':'var(--horn)',
+  'East Africa':'var(--east)','North Africa':'var(--north)','Sahara & Sahel':'var(--sahara)'
+};
 const REGISTRY = [
-  {name:'Yoruba',  title:'Yoruba people',  region:'West Africa',     x:333, y:452,  k:['Oyo Empire','Ife','Ijebu Kingdom']},
-  {name:'Igbo',    title:'Igbo people',    region:'West Africa',     x:375, y:482,  k:['Kingdom of Nri','Aro Confederacy','Igbo-Ukwu']},
-  {name:'Hausa',   title:'Hausa people',   region:'West Africa',     x:389, y:392,  k:['Hausa Kingdoms','Sokoto Caliphate','Kano Emirate']},
-  {name:'Ashanti', title:'Ashanti people', region:'West Africa',     x:257, y:472,  k:['Ashanti Empire','Kumasi','Golden Stool']},
+  {name:'Yoruba',  title:'Yoruba people',  region:'West Africa',     x:327, y:446,  k:['Oyo Empire','Ife','Ijebu Kingdom']},
+  {name:'Igbo',    title:'Igbo people',    region:'West Africa',     x:381, y:492,  k:['Kingdom of Nri','Aro Confederacy','Igbo-Ukwu']},
+  {name:'Hausa',   title:'Hausa people',   region:'West Africa',     x:389, y:386,  k:['Hausa Kingdoms','Sokoto Caliphate','Kano Emirate']},
+  {name:'Ashanti', title:'Ashanti people', region:'West Africa',     x:255, y:474,  k:['Ashanti Empire','Kumasi','Golden Stool']},
   {name:'Wolof',   title:'Wolof people',   region:'West Africa',     x:56,  y:347,  k:['Jolof Empire','Cayor','Waalo']},
   {name:'Zulu',    title:'Zulu people',    region:'Southern Africa', x:708, y:1002, k:['Zulu Kingdom','Shaka','Anglo-Zulu War']},
   {name:'Shona',   title:'Shona people',   region:'Southern Africa', x:708, y:844,  k:['Great Zimbabwe','Kingdom of Mutapa','Rozvi Empire']},
-  {name:'Amhara',  title:'Amhara people',  region:'Horn of Africa',  x:806, y:399,  k:['Ethiopian Empire','Kingdom of Aksum','Gondar']},
-  {name:'Oromo',   title:'Oromo people',   region:'Horn of Africa',  x:819, y:460,  k:['Gadaa','Kingdom of Jimma','Oromia']},
+  {name:'Amhara',  title:'Amhara people',  region:'Horn of Africa',  x:806, y:393,  k:['Ethiopian Empire','Kingdom of Aksum','Gondar']},
+  {name:'Oromo',   title:'Oromo people',   region:'Horn of Africa',  x:823, y:466,  k:['Gadaa','Kingdom of Jimma','Oromia']},
   {name:'Swahili', title:'Swahili people', region:'East Africa',     x:826, y:663,  k:['Kilwa Sultanate','Swahili coast','Sultanate of Zanzibar']},
   {name:'Amazigh', title:'Berbers',        region:'North Africa',    x:208, y:105,  k:['Numidia','Almoravid dynasty','Almohad Caliphate']},
   {name:'Tuareg',  title:'Tuareg people',  region:'Sahara & Sahel',  x:361, y:271,  k:['Sultanate of Aïr','Timbuktu','Trans-Saharan trade']},
 ];
+const regColor = r => REGION_COLOR[r] || 'var(--west)';
 
-/* ---------- continent geometry (design, not content) ---------- */
 const AFRICA = "M194,30 L319,18 L417,15 L493,98 L514,105 L556,89 L611,90 L694,102 L722,105 L729,121 L747,163 L794,277 L826,338 L879,383 L903,416 L944,402 L990,395 L971,452 L907,542 L868,578 L829,633 L823,675 L836,727 L843,791 L790,842 L761,871 L769,933 L730,963 L708,1023 L633,1084 L556,1097 L533,1083 L526,1070 L506,1003 L479,918 L447,801 L464,762 L461,705 L449,663 L400,583 L408,566 L412,512 L325,475 L275,490 L222,493 L128,478 L94,445 L88,429 L61,393 L35,351 L49,331 L42,256 L57,215 L94,164 L144,115 L172,66 L183,60 Z";
 const MADAGASCAR = "M962,755 L976,814 L938,946 L905,958 L879,908 L889,821 L948,773 Z";
+
+/* ---------- state ---------- */
+const visited = new Set();
+const EXPED = new Map(); // per-people expedition progress (session)
+function exped(title){
+  if(!EXPED.has(title)) EXPED.set(title,{
+    xp:0, collected:new Set(), reveals:new Set(),
+    ch:{story:false, time:false, build:false, light:false},
+    badges:new Set(), tmWins:0, celebrated:false
+  });
+  return EXPED.get(title);
+}
+const RANKS = [[0,'Wanderer 🌱'],[60,'Pathfinder 🧭'],[140,'Chronicler 📜'],[240,'Griot 👑']];
+const rankFor = xp => RANKS.reduce((a,r)=>xp>=r[0]?r[1]:a, RANKS[0][1]);
+
+function updateProg(){
+  const el = document.getElementById('prog');
+  if(el) el.innerHTML = `Explored <b>${visited.size}</b>/12`;
+}
+let toastTimer=null;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 1900);
+}
 
 /* ---------- API helpers ---------- */
 const cache = new Map();
 async function getJSON(url, opts){
   if(cache.has(url)) return cache.get(url);
   const r = await fetch(url, opts);
-  if(!r.ok) throw new Error('HTTP '+r.status+' for '+url);
+  if(!r.ok) throw new Error('HTTP '+r.status);
   const j = await r.json();
   cache.set(url, j);
   return j;
@@ -313,14 +477,15 @@ async function sparql(q){
   return getJSON('https://query.wikidata.org/sparql?format=json&query='+encodeURIComponent(q),
     {headers:{'Accept':'application/sparql-results+json'}});
 }
-function wikiURL(t){ return 'https://en.wikipedia.org/wiki/'+encodeURIComponent(t.replace(/ /g,'_')); }
+const wikiURL = t => 'https://en.wikipedia.org/wiki/'+encodeURIComponent(t.replace(/ /g,'_'));
 
 /* ---------- utilities ---------- */
 const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function year(v){ const m = /^(-?\d+)/.exec(v); return m ? parseInt(m[1],10) : null; }
-function fmtYear(y){ if(y==null) return '—'; return y<0 ? (-y)+' BCE' : y+' CE'; }
+const rxEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const yearOf = v => { const m = /^(-?\d+)/.exec(v); return m ? parseInt(m[1],10) : null; };
+const fmtYear = y => y==null ? '—' : (y<0 ? (-y)+' BCE' : y+' CE');
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
 function sections(text){
-  // split wiki-format plaintext into {heading, body}
   const parts = text.split(/\n==([^=].*?)==\n/);
   const out = [{h:'Overview', b:parts[0].trim()}];
   for(let i=1;i<parts.length;i+=2){
@@ -329,21 +494,60 @@ function sections(text){
   return out;
 }
 const WANT = ['history','origin','origins','precolonial','pre-colonial','culture','religion','society','language','art'];
-function pickSections(secs){
-  return secs.filter(s => WANT.some(w => s.h.toLowerCase().includes(w)) && s.b.length>200).slice(0,3);
+const pickSections = secs => secs.filter(s => WANT.some(w => s.h.toLowerCase().includes(w)) && s.b.length>200).slice(0,3);
+function clip(s,n){ if(s.length<=n) return s; const cut=s.slice(0,n); return cut.slice(0,cut.lastIndexOf('. ')+1) || cut; }
+const paras = s => s.split(/\n+/).filter(p=>p.trim().length>0);
+function firstSentences(s, n){
+  const m = s.match(/[^.!?]+[.!?]+(\s|$)/g) || [s];
+  return { head: m.slice(0,n).join('').trim(), rest: m.slice(n).join('').trim() };
 }
-function clip(s, n){ if(s.length<=n) return s; const cut=s.slice(0,n); return cut.slice(0,cut.lastIndexOf('. ')+1) || cut; }
-function paras(s){ return s.split(/\n+/).filter(p=>p.trim().length>0); }
+const FAIL_NOTE = `<div class="notice"><b>The archive couldn't be reached.</b> If you're viewing this in a sandboxed preview, external requests may be blocked — open the file in your browser or visit the deployed site.</div>`;
 
-const FAIL_NOTE = `<div class="notice"><b>The archive couldn't be reached.</b> If you're viewing this inside a sandboxed preview, external requests may be blocked — open the file in your browser or visit the deployed site and the shelves open right up.</div>`;
+function confettiBurst(x, y){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const colors = ['#FFB938','#FF6B57','#3DDC97','#45D8E0','#B388FF','#FF9B45'];
+  for(let i=0;i<26;i++){
+    const c = document.createElement('i');
+    c.className = 'confetti';
+    c.style.cssText = `left:${x + (Math.random()*120-60)}px;top:${y-10}px;background:${colors[i%6]};animation-delay:${Math.random()*0.18}s`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 1400);
+  }
+}
+
+function shareBar(text){
+  const url = location.origin + location.pathname;
+  const enc = encodeURIComponent;
+  return `<div class="share-row">
+    <button class="share-btn" data-share="native" data-text="${esc(text)}">Share 📤</button>
+    <a class="share-btn" target="_blank" rel="noopener"
+       href="https://twitter.com/intent/tweet?text=${enc(text)}&url=${enc(url)}">X</a>
+    <a class="share-btn" target="_blank" rel="noopener"
+       href="https://wa.me/?text=${enc(text+' '+url)}">WhatsApp</a>
+    <a class="share-btn" target="_blank" rel="noopener"
+       href="https://www.facebook.com/sharer/sharer.php?u=${enc(url)}&quote=${enc(text)}">Facebook</a>
+  </div>`;
+}
+function bindShare(scope){
+  scope.querySelectorAll('[data-share="native"]').forEach(b=>{
+    b.addEventListener('click', async ()=>{
+      const url = location.origin + location.pathname;
+      const text = b.dataset.text;
+      if(navigator.share){
+        try{ await navigator.share({title:'ÌTÀN', text, url}); }catch(e){}
+      } else {
+        try{ await navigator.clipboard.writeText(text+' '+url); toast('Copied to clipboard 📋'); }catch(e){}
+      }
+    });
+  });
+}
 
 /* ---------- router ---------- */
 const app = document.getElementById('app');
 window.addEventListener('hashchange', route);
 document.querySelectorAll('[data-nav]').forEach(b=>{
   b.addEventListener('click', ()=>{
-    location.hash = b.dataset.nav==='index' ? '#/peoples'
-                  : b.dataset.nav==='about' ? '#/about' : '#/';
+    location.hash = {home:'#/',index:'#/peoples',quiz:'#/quiz',about:'#/about'}[b.dataset.nav];
   });
 });
 function setNav(which){
@@ -353,218 +557,676 @@ function setNav(which){
 }
 function route(){
   const h = location.hash || '#/';
-  if(h.startsWith('#/people/')){ renderProfile(decodeURIComponent(h.slice(9))); }
-  else if(h.startsWith('#/peoples')){ renderIndex(); }
-  else if(h.startsWith('#/about')){ renderAbout(); }
-  else { renderHome(); }
+  if(h.startsWith('#/people/')) renderProfile(decodeURIComponent(h.slice(9)));
+  else if(h.startsWith('#/peoples')) renderIndex();
+  else if(h.startsWith('#/quiz/')) renderQuiz(decodeURIComponent(h.slice(7)));
+  else if(h.startsWith('#/quiz')) renderQuiz(null);
+  else if(h.startsWith('#/about')) renderAbout();
+  else renderHome();
   window.scrollTo(0,0);
 }
 
-/* ---------- HOME ---------- */
-function mapSVG(fill, stroke, sw, patternId){
-  const pat = patternId ? `url(#${patternId})` : fill;
+/* ---------- map ---------- */
+function mapSVG(fillVar, strokeVar, sw, weave){
+  const fillStyle = fillVar==='none' ? 'fill:none' : `fill:${fillVar}`;
+  const strokeStyle = strokeVar==='none' ? '' : `;stroke:${strokeVar};stroke-width:${sw};stroke-linejoin:round`;
+  const weaveRect = weave ? `<path d="${AFRICA}" style="fill:url(#weave)"/><path d="${MADAGASCAR}" style="fill:url(#weave)"/>` : '';
   return `<svg viewBox="0 0 1000 1100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    ${patternId?`<defs><pattern id="${patternId}" width="26" height="26" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-      <rect width="26" height="26" fill="${fill}"/>
-      <rect width="13" height="26" fill="rgba(242,230,203,.05)"/>
+    ${weave?`<defs><pattern id="weave" width="26" height="26" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="13" height="26" style="fill:var(--map-weave)"/>
     </pattern></defs>`:''}
-    <path d="${AFRICA}" fill="${pat}" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round"/>
-    <path d="${MADAGASCAR}" fill="${pat}" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round"/>
+    <path d="${AFRICA}" style="${fillStyle}${strokeStyle}"/>
+    <path d="${MADAGASCAR}" style="${fillStyle}${strokeStyle}"/>
+    ${weaveRect}
   </svg>`;
 }
+
+/* ---------- HOME ---------- */
 function renderHome(){
   setNav('home');
   app.innerHTML = `
     <section class="hero">
       <h1>The continent,<br>told by its <em>peoples</em>.</h1>
       <p>Not borders. Not colonies. <b>Peoples</b> — their kingdoms, their migrations, their art.
-      Every word on these pages is fetched live from open archives the moment you ask.</p>
+      Every word fetched live from open archives the moment you ask.</p>
     </section>
-
-    <div class="scene" id="scene">
-      <div class="map-stack" id="stack">
-        <div class="layer l-shadow">${mapSVG('#0A0D20','none',0)}</div>
-        <div class="layer l-base">${mapSVG('#222B55','rgba(242,230,203,.25)',2,'patA')}</div>
-        <div class="layer l-mid">${mapSVG('#2E3A6E','none',0,'patB')}</div>
-        <div class="layer l-top">${mapSVG('none','rgba(224,155,61,.55)',2.5)}</div>
-        <div class="layer l-pins" id="pins"></div>
+    <div class="scene-wrap">
+      <div class="sun" aria-hidden="true"></div>
+      <div class="scene" id="scene">
+        <div class="map-stack" id="stack">
+          <div class="layer l-shadow">${mapSVG('var(--map-shadow)','none',0,false)}</div>
+          <div class="layer l-base">${mapSVG('var(--map-base)','var(--map-stroke)',2,true)}</div>
+          <div class="layer l-mid">${mapSVG('var(--map-mid)','none',0,false)}</div>
+          <div class="layer l-top">${mapSVG('none','var(--map-contour)',2.5,false)}</div>
+          <div class="layer l-pins" id="pins"></div>
+        </div>
       </div>
     </div>
-    <p class="map-hint">Drag your eyes across the land — select a people to open their story</p>
-
+    <p class="map-hint">Tap a glowing light to begin an expedition · each color is a region</p>
     <div class="section-head">
       <span class="k">Featured</span><h2>Twelve peoples, one continent</h2>
-      <span class="right"><button class="nav-btn" id="go-index">Browse all peoples →</button></span>
+      <span class="right">
+        <button class="cta hot" style="margin:0" id="go-quiz">Play the quiz</button>
+        <button class="cta" style="margin:0 0 0 8px" id="go-index">All peoples →</button>
+      </span>
     </div>
     <div class="rail" id="rail"></div>
   `;
   document.getElementById('go-index').addEventListener('click', ()=>location.hash='#/peoples');
+  document.getElementById('go-quiz').addEventListener('click', ()=>location.hash='#/quiz');
 
-  // pins
   const pins = document.getElementById('pins');
+  const touchy = matchMedia('(hover: none)').matches;
+  let chip = null, chipFor = null;
+  const closeChip = ()=>{ if(chip){chip.remove(); chip=null; chipFor=null;} };
   REGISTRY.forEach(p=>{
     const b = document.createElement('button');
-    b.className = 'pin';
+    b.className = 'pin'+(visited.has(p.title)?' visited':'');
     b.style.left = (p.x/1000*100)+'%';
     b.style.top  = (p.y/1100*100)+'%';
-    b.setAttribute('aria-label', p.name+' — open profile');
+    b.style.setProperty('--pc', regColor(p.region));
+    b.setAttribute('aria-label', p.name+' — open expedition');
     b.innerHTML = `<span class="tag">${esc(p.name)}</span><span class="dot"></span>`;
-    b.addEventListener('click', ()=>location.hash='#/people/'+encodeURIComponent(p.title));
+    b.addEventListener('click', e=>{
+      e.stopPropagation();
+      if(!touchy || chipFor===p.title){ closeChip(); location.hash='#/people/'+encodeURIComponent(p.title); return; }
+      closeChip();
+      chip = document.createElement('div');
+      chip.className = 'pin-chip';
+      chip.style.left = (p.x/1000*100)+'%';
+      chip.style.top  = (p.y/1100*100)+'%';
+      chip.style.setProperty('--pc', regColor(p.region));
+      chip.innerHTML = `<span class="nm">${esc(p.name)}</span><button class="go">Open</button>`;
+      chip.querySelector('.go').addEventListener('click', ev=>{
+        ev.stopPropagation(); closeChip(); location.hash='#/people/'+encodeURIComponent(p.title);
+      });
+      pins.appendChild(chip);
+      chipFor = p.title;
+    });
     pins.appendChild(b);
   });
+  document.addEventListener('click', closeChip, {once:false});
 
-  // tilt
   const stack = document.getElementById('stack');
   const scene = document.getElementById('scene');
-  if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches && !touchy){
     scene.addEventListener('pointermove', e=>{
       const r = scene.getBoundingClientRect();
-      const dx = (e.clientX - r.left)/r.width - .5;
-      const dy = (e.clientY - r.top)/r.height - .5;
+      const dx = (e.clientX-r.left)/r.width-.5, dy = (e.clientY-r.top)/r.height-.5;
       stack.style.transform = `rotateX(${(-dy*10).toFixed(2)}deg) rotateY(${(dx*12).toFixed(2)}deg)`;
     });
-    scene.addEventListener('pointerleave', ()=>{ stack.style.transform = 'rotateX(0) rotateY(0)'; });
+    scene.addEventListener('pointerleave', ()=>{ stack.style.transform='rotateX(0) rotateY(0)'; });
   }
 
-  // featured cards — summaries fetched live
   const rail = document.getElementById('rail');
   rail.innerHTML = `<div class="status"><span class="spin"></span>Consulting the archives…</div>`;
   Promise.allSettled(REGISTRY.map(p=>summary(p.title))).then(results=>{
     rail.innerHTML = '';
-    let okCount = 0;
+    let ok = 0;
     results.forEach((res,i)=>{
       const p = REGISTRY[i];
       const card = document.createElement('button');
       card.className = 'card';
+      card.style.setProperty('--pc', regColor(p.region));
+      const ex = EXPED.get(p.title);
+      const seen = ex ? `<div class="seen">✓ ${esc(rankFor(ex.xp))} · ${ex.xp} XP</div>` : '';
       if(res.status==='fulfilled'){
-        okCount++;
+        ok++;
         const s = res.value;
-        const img = s.thumbnail ? `<img src="${esc(s.thumbnail.source)}" alt="" loading="lazy">` : `<div class="ph"></div>`;
-        card.innerHTML = `<div class="thumb">${img}</div>
+        card.innerHTML = `<div class="thumb">${s.thumbnail?`<img src="${esc(s.thumbnail.source)}" alt="" loading="lazy">`:''}</div>
           <div class="body"><span class="region">${esc(p.region)}</span><h3>${esc(p.name)}</h3>
-          <p>${esc(s.extract||'')}</p></div>`;
+          <p>${esc(s.extract||'')}</p>${seen}</div>`;
       } else {
-        card.innerHTML = `<div class="thumb"><div class="ph"></div></div>
+        card.innerHTML = `<div class="thumb"></div>
           <div class="body"><span class="region">${esc(p.region)}</span><h3>${esc(p.name)}</h3>
-          <p>Profile loads when the archive is reachable.</p></div>`;
+          <p>Profile loads when the archive is reachable.</p>${seen}</div>`;
       }
       card.addEventListener('click', ()=>location.hash='#/people/'+encodeURIComponent(p.title));
       rail.appendChild(card);
     });
-    if(okCount===0){ rail.insertAdjacentHTML('beforebegin', FAIL_NOTE); }
+    if(ok===0) rail.insertAdjacentHTML('beforebegin', FAIL_NOTE);
   });
 }
 
-/* ---------- PROFILE ---------- */
+/* =========================================================
+   PROFILE — THE EXPEDITION
+   ========================================================= */
+let EX = null, EX_TITLE = null;
+
+function addXP(n, label){
+  EX.xp += n;
+  sfx('collect');
+  toast(`+${n} XP — ${label}`);
+  const before = rankFor(EX.xp - n), after = rankFor(EX.xp);
+  if(before !== after){ setTimeout(()=>{ toast(`⬆ RANK UP: ${after}`); sfx('rank'); confettiBurst(innerWidth-130, innerHeight-120); }, 900); }
+  drawHUD();
+}
+function drawHUD(){
+  const hud = document.getElementById('hud');
+  if(!hud) return;
+  const next = RANKS.find(r=>r[0]>EX.xp);
+  const base = RANKS.filter(r=>r[0]<=EX.xp).pop();
+  const pct = next ? Math.min(100,((EX.xp-base[0])/(next[0]-base[0]))*100) : 100;
+  hud.innerHTML = `
+    <div class="rank">${esc(rankFor(EX.xp))}<button class="snd" id="snd" aria-label="Toggle sound">${soundOn?'🔊':'🔇'}</button></div>
+    <div class="xpline"><span>${EX.xp} XP</span><span>${next?next[0]+' → '+next[1].split(' ')[0]:'MAX'}</span></div>
+    <div class="xpbar"><i style="width:${pct}%"></i></div>
+    <div class="sat">✦ Satchel: ${EX.collected.size} artifacts</div>`;
+  document.getElementById('snd').addEventListener('click', e=>{
+    e.stopPropagation(); soundOn=!soundOn; drawHUD();
+  });
+}
+function markChapter(key){
+  if(EX.ch[key]) return;
+  EX.ch[key] = true;
+  const el = document.querySelector(`[data-chap="${key}"] .done`);
+  if(el){ el.textContent = '✓ COMPLETE'; el.classList.add('yes'); }
+  sfx('right');
+  const all = Object.values(EX.ch).every(Boolean);
+  if(all && !EX.celebrated){ EX.celebrated = true; setTimeout(finishExpedition, 700); }
+}
+function finishExpedition(){
+  sfx('win');
+  confettiBurst(innerWidth/2, innerHeight/3);
+  setTimeout(()=>confettiBurst(innerWidth/3, innerHeight/2), 280);
+  setTimeout(()=>confettiBurst(innerWidth*2/3, innerHeight/2), 540);
+  const wrap = document.createElement('div');
+  wrap.className = 'fin-wrap';
+  wrap.innerHTML = `<div class="fin" style="--rc:${document.querySelector('[data-rc]')?.dataset.rc||'var(--west)'}">
+    <div class="big">EXPEDITION COMPLETE</div>
+    <p>You finished every chapter of the ${esc(EX_TITLE)} expedition.<br>Final rank: <b>${esc(rankFor(EX.xp))}</b> · ${EX.xp} XP</p>
+    <div class="badges">${[...EX.badges].map(b=>`<span class="badge">${esc(b)}</span>`).join('')}</div>
+    <button class="cta hot" style="margin:0" id="fin-map">Choose your next expedition</button>
+    <button class="cta" style="margin:0 0 0 8px" id="fin-stay">Keep exploring</button>
+    ${shareBar(`Expedition complete: I reached ${rankFor(EX.xp)} rank exploring the ${EX_TITLE} on ÌTÀN 👑`)}
+  </div>`;
+  document.body.appendChild(wrap);
+  bindShare(wrap);
+  wrap.querySelector('#fin-map').addEventListener('click', ()=>{ wrap.remove(); location.hash='#/'; });
+  wrap.querySelector('#fin-stay').addEventListener('click', ()=>wrap.remove());
+}
+function badge(name){
+  if(EX.badges.has(name)) return;
+  EX.badges.add(name);
+  toast(`🏅 Badge earned: ${name}`);
+}
+
+/* artifact words: wrap known names inside escaped text with tappable buttons */
+function linkArtifacts(escapedText, candidates){
+  let out = escapedText;
+  candidates.forEach(c=>{
+    const e = esc(c);
+    const rx = new RegExp('(^|[^\\w>])('+rxEsc(e)+')(?![\\w<])','i');
+    if(rx.test(out)){
+      out = out.replace(rx, (m,pre,word)=>`${pre}<button class="art${EX.collected.has(c)?' got':''}" data-art="${e}">${word}</button>`);
+    }
+  });
+  return out;
+}
+function bindArtifacts(scope, rc){
+  scope.querySelectorAll('.art').forEach(btn=>{
+    btn.addEventListener('click', async e=>{
+      e.preventDefault();
+      const t = btn.dataset.art;
+      openSheet(t, rc, btn);
+    });
+  });
+}
+async function openSheet(title, rc, btn){
+  const wrap = document.createElement('div');
+  wrap.className = 'sheet-wrap';
+  wrap.innerHTML = `<div class="sheet" style="--rc:${rc}">
+    <div class="s-kind">Artifact · live from the archive</div>
+    <h3>${esc(title)}</h3>
+    <div class="status" style="padding:18px 0"><span class="spin"></span>Unsealing…</div>
+  </div>`;
+  document.body.appendChild(wrap);
+  wrap.addEventListener('click', e=>{ if(e.target===wrap) wrap.remove(); });
+  const sheet = wrap.querySelector('.sheet');
+  try{
+    const s = await summary(title);
+    const lede = firstSentences(s.extract||'', 2).head;
+    const isNew = !EX.collected.has(title);
+    sheet.innerHTML = `
+      <div class="s-kind">Artifact · live from the archive</div>
+      <h3>${esc(s.title||title)}</h3>
+      ${s.thumbnail?`<img src="${esc(s.thumbnail.source)}" alt="">`:''}
+      <p>${esc(lede)}</p>
+      <p class="read-more"><a href="${wikiURL(title)}" rel="noopener">Full record →</a></p>
+      <button class="s-close">${isNew?'Add to satchel ✦':'Back to the story'}</button>`;
+    sheet.querySelector('.s-close').addEventListener('click', ()=>{
+      if(isNew){
+        EX.collected.add(title);
+        addXP(15,'artifact collected');
+        if(btn) btn.classList.add('got');
+        if(EX.collected.size>=3) badge('Word Hunter ✦');
+        checkStoryChapter();
+      }
+      wrap.remove();
+    });
+  }catch(e){
+    sheet.innerHTML = `<h3>${esc(title)}</h3><p>The archive couldn't be reached for this one.</p>
+      <button class="s-close">Close</button>`;
+    sheet.querySelector('.s-close').addEventListener('click', ()=>wrap.remove());
+  }
+}
+function checkStoryChapter(){
+  if(EX.reveals.size>=2 && EX.collected.size>=2) markChapter('story');
+}
+
 async function renderProfile(title){
   setNav('');
   const reg = REGISTRY.find(r=>r.title===title);
-  app.innerHTML = `<div class="status"><span class="spin"></span>Opening the story of ${esc(reg?reg.name:title)}…</div>`;
+  const rc = reg ? regColor(reg.region) : 'var(--west)';
+  EX = exped(title); EX_TITLE = reg ? reg.name : title;
+  app.innerHTML = `<div class="status"><span class="spin"></span>Preparing the ${esc(EX_TITLE)} expedition…</div>`;
   let s;
   try { s = await summary(title); }
-  catch(e){
-    app.innerHTML = FAIL_NOTE + `<button class="back" onclick="location.hash='#/'">← Back to the map</button>`;
-    return;
-  }
+  catch(e){ app.innerHTML = FAIL_NOTE + `<button class="back" onclick="location.hash='#/'">← Back to the map</button>`; return; }
+
+  if(reg){ visited.add(title); updateProg(); }
   const heroImg = s.originalimage ? s.originalimage.source : (s.thumbnail ? s.thumbnail.source : '');
+  const lede = firstSentences(s.extract||'', 3);
+  const artifacts = reg ? [...reg.k, ...REGISTRY.filter(r=>r!==reg).map(r=>r.name)] : [];
+
   app.innerHTML = `
+  <div style="--rc:${rc}" data-rc="${rc}">
     <div class="p-hero">
       ${heroImg?`<div class="bg" id="phbg" style="background-image:url('${esc(heroImg)}')"></div>`:''}
-      <div class="veil"></div><div class="pat"></div>
+      <div class="veil"></div><div class="edge"></div>
       <div class="inner">
-        <div class="meta">${esc(reg?reg.region:'Africa')} · live from the open archive</div>
+        <div class="meta">${esc(reg?reg.region:'Africa')} · expedition · live from the open archive</div>
         <h1>${esc(s.title||title)}</h1>
         <p class="desc">${esc(s.description||'')}</p>
       </div>
     </div>
-    <div class="band thin" style="margin:22px 0" aria-hidden="true"></div>
-    <article class="prose" id="prose">
-      <p class="lede">${esc(s.extract||'')}</p>
-      <div class="status" id="more"><span class="spin"></span>Turning the deeper pages…</div>
-    </article>
-    <div id="kingdoms"></div>
-    <button class="back" onclick="history.length>1?history.back():location.hash='#/'">← Back</button>
-  `;
 
-  // gentle parallax on hero image
+    ${reg?`
+    <!-- CHAPTER 1 -->
+    <section class="chap" data-chap="story">
+      <div class="chap-head"><span class="num">CH·1</span><h2>The Story</h2>
+        <span class="done">${EX.ch.story?'✓ COMPLETE':'open 2 scrolls + collect 2 artifacts'}</span></div>
+      <div class="chap-body">
+        <p class="chap-sub">Glowing words are artifacts — tap them to collect ✦</p>
+        <article class="prose" id="prose">
+          <p class="lede">${linkArtifacts(esc(lede.head), artifacts)}</p>
+          ${lede.rest?`<details class="reveal" data-rev="0"><summary>The overview, continued <span class="xp-hint">+10 XP</span><span class="arrow">→</span></summary>
+            <div class="inner">${paras(lede.rest).map(p=>`<p>${linkArtifacts(esc(p), artifacts)}</p>`).join('')}</div></details>`:''}
+          <div class="status" id="more"><span class="spin"></span>Turning the deeper pages…</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CHAPTER 2 -->
+    <section class="chap" data-chap="time">
+      <div class="chap-head"><span class="num">CH·2</span><h2>The Time Machine</h2>
+        <span class="done">${EX.ch.time?'✓ COMPLETE':'answer 1 time riddle'}</span></div>
+      <div class="chap-body" id="timemachine">
+        <div class="status"><span class="spin"></span>Charging the dial with live dates…</div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 3 -->
+    <section class="chap" data-chap="build">
+      <div class="chap-head"><span class="num">CH·3</span><h2>The Builders</h2>
+        <span class="done">${EX.ch.build?'✓ COMPLETE':'win the memory match'}</span></div>
+      <div class="chap-body">
+        <div id="ktl"></div>
+        <div class="k-grid" id="kgrid"><div class="status"><span class="spin"></span>Unsealing the chronicles…</div></div>
+        <div id="memory" style="margin-top:26px"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4 -->
+    <section class="chap" data-chap="light">
+      <div class="chap-head"><span class="num">CH·4</span><h2>The Lightning Round</h2>
+        <span class="done">${EX.ch.light?'✓ COMPLETE':'survive 45 seconds'}</span></div>
+      <div class="chap-body" id="lightning">
+        <p style="margin-bottom:16px">45 seconds. Questions forged live from the archive. How many can you answer before the sand runs out?</p>
+        <button class="lr-start" id="lr-go">⚡ Start the Lightning Round</button>
+        <p style="margin-top:14px"><a href="#/quiz/${encodeURIComponent(title)}" class="read-more">or take the calm 3-question quiz instead →</a></p>
+      </div>
+    </section>
+    `:`
+    <hr class="glow-rule">
+    <article class="prose">
+      <p class="lede">${esc(lede.head)}</p>
+      ${lede.rest?`<details class="reveal"><summary>The overview, continued <span class="arrow">→</span></summary>
+        <div class="inner">${paras(lede.rest).map(p=>`<p>${esc(p)}</p>`).join('')}</div></details>`:''}
+      <div class="status" id="more"><span class="spin"></span>Turning the deeper pages…</div>
+    </article>`}
+
+    <button class="back" onclick="history.length>1?history.back():location.hash='#/'">← Back</button>
+    ${reg?`<div class="hud" id="hud" style="--rc:${rc}"></div>`:''}
+  </div>`;
+
+  if(reg){ drawHUD(); }
+
   const bg = document.getElementById('phbg');
   if(bg && !matchMedia('(prefers-reduced-motion: reduce)').matches){
-    addEventListener('scroll', ()=>{ bg.style.transform = `scale(1.06) translateY(${Math.min(scrollY*0.08,40)}px)`; }, {passive:true});
+    addEventListener('scroll', ()=>{ bg.style.transform=`scale(1.06) translateY(${Math.min(scrollY*0.08,40)}px)`; }, {passive:true});
   }
 
-  // deeper sections
+  /* deeper sections */
   try{
     const full = await extract(title);
     const chosen = pickSections(sections(full));
     const more = document.getElementById('more');
-    more.outerHTML = chosen.map(sec=>`
-      <h3>${esc(sec.h)}</h3>
-      ${paras(clip(sec.b, 1900)).map(p=>`<p>${esc(p)}</p>`).join('')}
-    `).join('') + `<p class="read-more"><a href="${wikiURL(title)}" rel="noopener">Read the full record on Wikipedia →</a></p>`;
+    if(more) more.outerHTML = chosen.map((sec,n)=>`
+      <details class="reveal" data-rev="${n+1}"><summary>Scroll ${n+1}: ${esc(sec.h)} ${reg?'<span class="xp-hint">+10 XP</span>':''}<span class="arrow">→</span></summary>
+      <div class="inner">${paras(clip(sec.b,1900)).map(p=>`<p>${reg?linkArtifacts(esc(p), artifacts):esc(p)}</p>`).join('')}</div></details>
+    `).join('') + `<p class="read-more" style="margin-top:14px"><a href="${wikiURL(title)}" rel="noopener">Read the full record on Wikipedia →</a></p>`;
   }catch(e){
     const more = document.getElementById('more');
     if(more) more.outerHTML = `<p class="read-more"><a href="${wikiURL(title)}" rel="noopener">Read the full record on Wikipedia →</a></p>`;
   }
 
-  // kingdoms & polities + timeline
-  if(reg && reg.k.length){
-    const kd = document.getElementById('kingdoms');
-    kd.innerHTML = `
-      <div class="section-head"><span class="k">Kingdoms · Polities · Legacies</span>
-      <h2>What the ${esc(reg.name)} built</h2></div>
-      <div class="status" id="kstat"><span class="spin"></span>Unsealing the chronicles…</div>
-      <div id="ktl"></div><div class="k-grid" id="kgrid"></div>`;
+  if(!reg) return;
 
-    const [sums, dates] = await Promise.all([
-      Promise.allSettled(reg.k.map(t=>summary(t))),
-      fetchDates(reg.k).catch(()=>null)
-    ]);
-    document.getElementById('kstat').remove();
-
-    // timeline
-    if(dates && dates.length){
-      const dated = dates.filter(d=>d.start!=null);
-      if(dated.length){
-        const min = Math.min(...dated.map(d=>d.start));
-        const max = Math.max(...dated.map(d=>d.end!=null?d.end:new Date().getFullYear()));
-        const span = Math.max(max-min,1);
-        const pos = y => ((y-min)/span*100);
-        const ticks = [min, min+span*0.33, min+span*0.66, max].map(Math.round);
-        document.getElementById('ktl').innerHTML = `<div class="tl-wrap">
-          <div class="tl-axis">${ticks.map(t=>`<span style="left:${pos(t)}%">${fmtYear(t)}</span>`).join('')}</div>
-          ${dated.map(d=>{
-            const e = d.end!=null?d.end:max;
-            return `<div class="tl-row"><span class="nm">${esc(d.name)}</span>
-              <span class="track"><span class="bar" style="left:${pos(d.start)}%;width:${Math.max(pos(e)-pos(d.start),1)}%"></span>
-              <span class="yr" style="left:${pos(d.start)}%">${fmtYear(d.start)}${d.end!=null?' – '+fmtYear(d.end):''}</span></span></div>`;
-          }).join('')}
-        </div>`;
+  /* bind reveals + artifacts */
+  const root = app;
+  bindArtifacts(root, rc);
+  root.querySelectorAll('.reveal[data-rev]').forEach(d=>{
+    d.addEventListener('toggle', ()=>{
+      if(d.open && !EX.reveals.has(d.dataset.rev)){
+        EX.reveals.add(d.dataset.rev);
+        addXP(10,'scroll opened');
+        if(EX.reveals.size>=3) badge('Deep Reader 📜');
+        checkStoryChapter();
       }
-    }
+    });
+  });
 
-    // cards
-    const grid = document.getElementById('kgrid');
-    sums.forEach((res,i)=>{
-      const t = reg.k[i];
-      const el = document.createElement('div');
-      el.className = 'k-card';
-      if(res.status==='fulfilled'){
-        const ks = res.value;
-        const d = dates && dates.find(x=>x.title===t);
-        el.innerHTML = `<div class="thumb">${ks.thumbnail?`<img src="${esc(ks.thumbnail.source)}" alt="" loading="lazy">`:''}</div>
-          <div class="body"><h4>${esc(ks.title||t)}</h4>
-          <div class="dates">${d&&d.start!=null?fmtYear(d.start)+(d.end!=null?' — '+fmtYear(d.end):' — present'):'\u00A0'}</div>
-          <p>${esc(clip(ks.extract||'',300))}</p>
-          <a href="${wikiURL(t)}" rel="noopener">Full record →</a></div>`;
-      } else {
-        el.innerHTML = `<div class="thumb"></div><div class="body"><h4>${esc(t)}</h4><p>Record unavailable right now.</p></div>`;
-      }
-      grid.appendChild(el);
+  /* dates → time machine + timeline + kingdom cards + memory */
+  const [sums, dates] = await Promise.all([
+    Promise.allSettled(reg.k.map(t=>summary(t))),
+    fetchDates(reg.k).catch(()=>null)
+  ]);
+
+  buildTimeMachine(reg, dates, rc);
+  buildKingdoms(reg, sums, dates, rc);
+  buildMemory(reg, sums, dates, rc);
+
+  document.getElementById('lr-go').addEventListener('click', ()=>startLightning(reg, rc));
+}
+
+/* ---------- CH2: time machine ---------- */
+function buildTimeMachine(reg, dates, rc){
+  const tm = document.getElementById('timemachine');
+  const dated = (dates||[]).filter(d=>d.start!=null);
+  if(!dated.length){ tm.innerHTML = `<p>The archive holds no dates for these chronicles yet — chapter auto-completed.</p>`; markChapter('time'); return; }
+  const NOW = new Date().getFullYear();
+  const min = Math.min(...dated.map(d=>d.start));
+  const max = Math.max(...dated.map(d=>d.end!=null?d.end:NOW));
+  let yr = Math.round((min+max)/2);
+
+  tm.innerHTML = `<div class="tm">
+    <div class="tm-year" id="tm-year"></div>
+    <div class="tm-sub">Drag through time — watch what stands and what falls</div>
+    <input type="range" id="tm-range" min="${min}" max="${max}" value="${yr}" aria-label="Year dial">
+    <div class="tm-rows" id="tm-rows"></div>
+    <div class="tm-q" id="tm-q"></div>
+  </div>`;
+
+  const span = Math.max(max-min,1);
+  const rows = document.getElementById('tm-rows');
+  rows.innerHTML = dated.map((d,i)=>{
+    const e = d.end!=null?d.end:NOW;
+    return `<div class="tm-row" data-i="${i}">
+      <span class="nm">${esc(d.name)}</span>
+      <span class="track"><span class="bar" style="left:${((d.start-min)/span*100)}%;width:${Math.max(((e-d.start)/span*100),1.5)}%"></span>
+      <span class="stamp">${fmtYear(d.start)}${d.end!=null?'–'+fmtYear(d.end):'–now'}</span></span>
+    </div>`;
+  }).join('');
+
+  const yearEl = document.getElementById('tm-year');
+  function paint(){
+    yearEl.textContent = fmtYear(yr);
+    dated.forEach((d,i)=>{
+      const alive = yr>=d.start && yr<=(d.end!=null?d.end:NOW);
+      rows.querySelector(`[data-i="${i}"]`).classList.toggle('alive', alive);
     });
   }
+  paint();
+  document.getElementById('tm-range').addEventListener('input', e=>{
+    yr = +e.target.value; paint(); sfx('tick');
+  });
+
+  /* riddle */
+  const qEl = document.getElementById('tm-q');
+  function riddle(){
+    const d = shuffle(dated)[0];
+    const end = d.end!=null?d.end:NOW;
+    const inside = Math.random()<.5;
+    let y;
+    if(inside) y = d.start + Math.floor(Math.random()*Math.max(end-d.start,1));
+    else {
+      y = Math.random()<.5 ? d.start - (40+Math.floor(Math.random()*300)) : end + (40+Math.floor(Math.random()*300));
+      y = Math.max(min-400, Math.min(max+400, y));
+    }
+    const truth = y>=d.start && y<=end;
+    qEl.innerHTML = `<h4>⏳ Time riddle: in ${fmtYear(y)}, was ${esc(d.name)} standing?</h4>
+      <div class="tm-opts"><button class="tm-opt" data-v="1">Yes, it stood</button><button class="tm-opt" data-v="0">No, not yet / no more</button></div>
+      <div class="tm-verdict" id="tm-v"></div>`;
+    qEl.querySelectorAll('.tm-opt').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const guess = btn.dataset.v==='1';
+        qEl.querySelectorAll('.tm-opt').forEach(b=>{
+          b.disabled=true;
+          if((b.dataset.v==='1')===truth) b.classList.add('right');
+        });
+        const v = document.getElementById('tm-v');
+        if(guess===truth){
+          sfx('right');
+          EX.tmWins++;
+          if(EX.tmWins<=3) addXP(20,'time riddle solved');
+          if(EX.tmWins===3) badge('Time Traveler ⏳');
+          markChapter('time');
+          const r = btn.getBoundingClientRect();
+          confettiBurst(r.left+r.width/2, r.top);
+          v.innerHTML = `Correct! ${esc(d.name)}: ${fmtYear(d.start)} – ${d.end!=null?fmtYear(d.end):'today'}. <button class="tm-opt" id="tm-again" style="margin-left:8px">Another riddle ↻</button>`;
+        } else {
+          sfx('wrong');
+          v.innerHTML = `Not quite — ${esc(d.name)} stood from ${fmtYear(d.start)} to ${d.end!=null?fmtYear(d.end):'today'}. <button class="tm-opt" id="tm-again" style="margin-left:8px">Try another ↻</button>`;
+        }
+        document.getElementById('tm-again').addEventListener('click', riddle);
+      });
+    });
+  }
+  riddle();
+}
+
+/* ---------- CH3: kingdoms + timeline + memory match ---------- */
+function buildKingdoms(reg, sums, dates, rc){
+  const idFor = t => 'kc-'+t.replace(/[^a-z0-9]/gi,'-');
+  const NOW = new Date().getFullYear();
+  if(dates && dates.length){
+    const dated = dates.filter(d=>d.start!=null);
+    if(dated.length){
+      const min = Math.min(...dated.map(d=>d.start));
+      const max = Math.max(...dated.map(d=>d.end!=null?d.end:NOW));
+      const span = Math.max(max-min,1);
+      const pos = y => ((y-min)/span*100);
+      const ticks = [min, min+span*0.33, min+span*0.66, max].map(Math.round);
+      document.getElementById('ktl').innerHTML = `<div class="tl-wrap">
+        <div class="tl-axis">${ticks.map(t=>`<span style="left:${pos(t)}%">${fmtYear(t)}</span>`).join('')}</div>
+        ${dated.map(d=>{
+          const e = d.end!=null?d.end:max;
+          const dur = (d.end!=null?d.end:NOW) - d.start;
+          return `<div class="tl-row"><span class="nm">${esc(d.name)}</span>
+            <span class="track"><button class="tl-bar" data-target="${idFor(d.title)}" aria-label="${esc(d.name)} — jump to card"
+            style="left:${pos(d.start)}%;width:${Math.max(pos(e)-pos(d.start),1.2)}%">
+            <span class="dur">lasted ${dur} years!</span></button>
+            <span class="yr" style="left:${Math.min(pos(d.start)+1, 86)}%">${fmtYear(d.start)}${d.end!=null?' – '+fmtYear(d.end):''}</span></span></div>`;
+        }).join('')}
+        <p class="tl-tip">Tap a bar to jump to its story ↓</p>
+      </div>`;
+    }
+  }
+  const grid = document.getElementById('kgrid');
+  grid.innerHTML = '';
+  sums.forEach((res,i)=>{
+    const t = reg.k[i];
+    const el = document.createElement('div');
+    el.className = 'k-card';
+    el.id = idFor(t);
+    if(res.status==='fulfilled'){
+      const ks = res.value;
+      const d = dates && dates.find(x=>x.title===t);
+      el.innerHTML = `<div class="thumb">${ks.thumbnail?`<img src="${esc(ks.thumbnail.source)}" alt="" loading="lazy">`:''}</div>
+        <div class="body"><h4>${esc(ks.title||t)}</h4>
+        <div class="dates">${d&&d.start!=null?fmtYear(d.start)+(d.end!=null?' — '+fmtYear(d.end):' — present'):'\u00A0'}</div>
+        <p>${esc(clip(ks.extract||'',300))}</p>
+        <a href="${wikiURL(t)}" rel="noopener">Full record →</a></div>`;
+    } else {
+      el.innerHTML = `<div class="thumb"></div><div class="body"><h4>${esc(t)}</h4><p>Record unavailable right now.</p></div>`;
+    }
+    grid.appendChild(el);
+  });
+  document.querySelectorAll('.tl-bar').forEach(bar=>{
+    bar.addEventListener('click', ()=>{
+      const card = document.getElementById(bar.dataset.target);
+      if(!card) return;
+      document.querySelectorAll('.k-card.lit').forEach(c=>c.classList.remove('lit'));
+      card.classList.add('lit');
+      card.scrollIntoView({behavior:'smooth', block:'center'});
+      sfx('tick');
+      setTimeout(()=>card.classList.remove('lit'), 2600);
+    });
+  });
+}
+
+function buildMemory(reg, sums, dates, rc){
+  const box = document.getElementById('memory');
+  /* pairs: name ↔ image where available, else name ↔ founding year */
+  const pairs = [];
+  sums.forEach((res,i)=>{
+    const t = reg.k[i];
+    const short = t.length>18 ? t.split(' ').slice(0,2).join(' ') : t;
+    if(res.status==='fulfilled' && res.value.thumbnail){
+      pairs.push({id:i, a:{type:'name', v:short}, b:{type:'img', v:res.value.thumbnail.source, lbl:short}});
+    } else {
+      const d = dates && dates.find(x=>x.title===t);
+      if(d && d.start!=null) pairs.push({id:i, a:{type:'name', v:short}, b:{type:'txt', v:'Founded '+fmtYear(d.start), lbl:short}});
+    }
+  });
+  if(pairs.length<2){ box.innerHTML=''; markChapter('build'); return; }
+
+  box.innerHTML = `<h4 style="font-family:'Bricolage Grotesque',sans-serif;font-size:19px;margin-bottom:4px">🃏 Memory of the Builders</h4>
+    <p class="chap-sub">Match each name to its record — fewest flips wins</p>
+    <div class="mm-grid" id="mm"></div><div class="mm-stats" id="mm-stats">FLIPS: 0</div>`;
+  const cards = shuffle(pairs.flatMap(p=>[
+    {pid:p.id, face:p.a},
+    {pid:p.id, face:p.b}
+  ]));
+  const mm = document.getElementById('mm');
+  let open=[], lock=false, flips=0, matched=0;
+  cards.forEach((c,n)=>{
+    const el = document.createElement('button');
+    el.className = 'mm-card';
+    el.dataset.pid = c.pid;
+    const backInner = c.face.type==='img'
+      ? `<img src="${esc(c.face.v)}" alt=""><span class="lbl">${esc(c.face.lbl)}</span>`
+      : c.face.type==='txt' ? `<span class="lbl">${esc(c.face.v)}</span><span class="lbl">${esc(c.face.lbl)}</span>`
+      : `<span class="lbl" style="font-family:'Bricolage Grotesque',sans-serif;font-size:14px">${esc(c.face.v)}</span>`;
+    el.innerHTML = `<div class="mm-in"><div class="mm-face mm-front">?</div><div class="mm-face mm-back">${backInner}</div></div>`;
+    el.addEventListener('click', ()=>{
+      if(lock || el.classList.contains('flip') || el.classList.contains('matched')) return;
+      el.classList.add('flip'); sfx('tick');
+      open.push(el);
+      if(open.length===2){
+        flips++; document.getElementById('mm-stats').textContent = 'FLIPS: '+flips;
+        lock=true;
+        const [x,y2] = open;
+        if(x.dataset.pid===y2.dataset.pid){
+          setTimeout(()=>{
+            x.classList.add('matched'); y2.classList.add('matched');
+            sfx('right'); matched++;
+            open=[]; lock=false;
+            if(matched===pairs.length){
+              addXP(25,'memory of the builders');
+              badge('Master Matcher 🃏');
+              markChapter('build');
+              const r = mm.getBoundingClientRect();
+              confettiBurst(r.left+r.width/2, r.top+60);
+            }
+          }, 350);
+        } else {
+          setTimeout(()=>{ x.classList.remove('flip'); y2.classList.remove('flip'); open=[]; lock=false; sfx('wrong'); }, 800);
+        }
+      }
+    });
+    mm.appendChild(el);
+  });
+}
+
+/* ---------- CH4: lightning round ---------- */
+async function startLightning(reg, rc){
+  const box = document.getElementById('lightning');
+  box.innerHTML = `<div class="status"><span class="spin"></span>Forging questions from the live archive…</div>`;
+  let qs;
+  try{
+    qs = await buildQuestions(reg.title, 12);
+    if(qs.length<3) qs = await buildQuestions(null, 12); /* widen if scope data is thin */
+  }catch(e){ box.innerHTML = FAIL_NOTE; return; }
+
+  let i=0, ok=0, total=0, t=45, timer=null, done=false;
+  function frame(){
+    box.innerHTML = `
+      <div class="lr-score"><span>⚡ <b>${ok}</b> correct</span><span><b>${total}</b> answered</span><span><b>${t}</b>s left</span></div>
+      <div class="lr-timebar"><i style="width:${(t/45)*100}%"></i></div>
+      <div class="lr-q" id="lrq"></div>`;
+    drawQ();
+  }
+  function drawQ(){
+    const q = qs[i % qs.length];
+    const el = document.getElementById('lrq');
+    el.innerHTML = `<h4>${esc(q.text)}</h4>
+      <div class="lr-opts">${q.opts.map(o=>`<button class="lr-opt">${esc(o)}</button>`).join('')}</div>`;
+    el.querySelectorAll('.lr-opt').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        if(done) return;
+        const right = btn.textContent===q.answer;
+        el.querySelectorAll('.lr-opt').forEach(b=>{ b.disabled=true; if(b.textContent===q.answer) b.classList.add('right'); });
+        if(right){ ok++; sfx('right'); const r=btn.getBoundingClientRect(); confettiBurst(r.left+r.width/2, r.top); }
+        else { btn.classList.add('wrong'); sfx('wrong'); }
+        total++; i++;
+        setTimeout(()=>{ if(!done) frame(); }, right?420:780);
+      });
+    });
+  }
+  function finish(){
+    done = true; clearInterval(timer);
+    const xp = ok*5;
+    if(xp>0) addXP(xp, `lightning: ${ok} correct`);
+    if(ok>=8) badge('Storm Caller ⚡');
+    markChapter('light');
+    box.innerHTML = `
+      <div class="q-final" style="padding:20px 0">
+        <div class="big">${ok} ⚡</div>
+        <p style="margin:8px 0 18px">${ok} correct out of ${total} in 45 seconds${ok>=8?' — storm caller!':''}</p>
+        <button class="lr-start" id="lr-again">Run it back ⚡</button>
+        ${shareBar(`${ok} correct in 45 seconds on the ÌTÀN Lightning Round ⚡ Beat that.`)}
+      </div>`;
+    bindShare(box);
+    if(ok>=5){ sfx('win'); confettiBurst(innerWidth/2, innerHeight/2); }
+    document.getElementById('lr-again').addEventListener('click', ()=>startLightning(reg, rc));
+  }
+  timer = setInterval(()=>{
+    t--;
+    const bar = box.querySelector('.lr-timebar i');
+    const sc = box.querySelector('.lr-score');
+    if(bar) bar.style.width = (t/45)*100+'%';
+    if(sc) sc.innerHTML = `<span>⚡ <b>${ok}</b> correct</span><span><b>${total}</b> answered</span><span><b>${t}</b>s left</span>`;
+    if(t<=5 && t>0) sfx('tick');
+    if(t<=0) finish();
+  }, 1000);
+  frame();
 }
 
 async function fetchDates(titles){
+  const key = 'dates:'+titles.join('|');
+  if(cache.has(key)) return cache.get(key);
   const values = titles.map(t=>`<https://en.wikipedia.org/wiki/${encodeURIComponent(t.replace(/ /g,'_'))}>`).join(' ');
   const q = `SELECT ?article ?itemLabel ?start ?end WHERE {
     VALUES ?article { ${values} }
@@ -577,26 +1239,153 @@ async function fetchDates(titles){
   const j = await sparql(q);
   const map = new Map();
   j.results.bindings.forEach(b=>{
-    const url = b.article.value;
-    const t = decodeURIComponent(url.split('/wiki/')[1]).replace(/_/g,' ');
+    const t = decodeURIComponent(b.article.value.split('/wiki/')[1]).replace(/_/g,' ');
     if(!map.has(t)) map.set(t, {
       title:t, name:(b.itemLabel&&b.itemLabel.value)||t,
-      start: b.start?year(b.start.value):null,
-      end:   b.end?year(b.end.value):null
+      start:b.start?yearOf(b.start.value):null,
+      end:b.end?yearOf(b.end.value):null
     });
   });
-  return titles.map(t=>map.get(t)).filter(Boolean);
+  const out = titles.map(t=>map.get(t)).filter(Boolean);
+  cache.set(key, out);
+  return out;
 }
 
-/* ---------- INDEX (dynamic tier) ---------- */
+/* ---------- QUIZ (shared engine) ---------- */
+async function buildQuestions(scopeTitle, want){
+  const scope = scopeTitle ? REGISTRY.find(r=>r.title===scopeTitle) : null;
+  const allK = REGISTRY.flatMap(r=>r.k.map(t=>({t, owner:r})));
+  const dates = await fetchDates(scope ? scope.k : allK.map(x=>x.t));
+  const dated = dates.filter(d=>d.start!=null);
+  const qs = [];
+
+  const pool = shuffle(dated);
+  for(let i=0;i+1<pool.length && qs.length<8;i+=2){
+    const [a,b] = [pool[i], pool[i+1]];
+    if(a.start===b.start) continue;
+    const first = a.start<b.start ? a : b, second = a.start<b.start ? b : a;
+    qs.push({
+      kind:'Chronology', text:`Which rose first?`,
+      opts: shuffle([a.name, b.name]), answer:first.name,
+      why:`${first.name} — founded ${fmtYear(first.start)}, before ${second.name} (${fmtYear(second.start)}).`
+    });
+  }
+  shuffle(dated).slice(0,5).forEach(d=>{
+    const offs = shuffle([120,-180,260,-90,340,-300]).slice(0,3);
+    qs.push({
+      kind:'Founding', text:`When was ${d.name} founded?`,
+      opts: shuffle([fmtYear(d.start), ...offs.map(o=>fmtYear(d.start+o))]),
+      answer: fmtYear(d.start),
+      why:`${d.name} was founded around ${fmtYear(d.start)}.`
+    });
+  });
+  if(!scope){
+    shuffle(allK).slice(0,5).forEach(({t, owner})=>{
+      const others = shuffle(REGISTRY.filter(r=>r!==owner)).slice(0,3).map(r=>r.name);
+      qs.push({
+        kind:'Peoples', text:`${t} — whose story is it part of?`,
+        opts: shuffle([owner.name, ...others]), answer: owner.name,
+        why:`${t} belongs to the story of the ${owner.name}.`
+      });
+    });
+  }
+  try{
+    const who = scope || shuffle(REGISTRY)[0];
+    const s = await summary(who.title);
+    if(s.thumbnail){
+      const others = shuffle(REGISTRY.filter(r=>r!==who)).slice(0,3).map(r=>r.name);
+      qs.push({
+        kind:'From the archive', text:`This image comes from whose record?`,
+        img:s.thumbnail.source, opts:shuffle([who.name, ...others]), answer:who.name,
+        why:`That's from the ${who.name} record in the open archive.`
+      });
+    }
+  }catch(e){}
+  return shuffle(qs).slice(0, want || (scope ? 3 : 8));
+}
+
+async function renderQuiz(scopeTitle){
+  setNav(scopeTitle?'':'quiz');
+  const scope = scopeTitle ? REGISTRY.find(r=>r.title===scopeTitle) : null;
+  app.innerHTML = `<div class="quiz-shell">
+    <div class="section-head" style="margin-top:34px"><span class="k">${scope?'Prove it':'Quiz mode'}</span>
+    <h2>${scope?('Quick three on the '+esc(scope.name)):'How well do you know the continent?'}</h2></div>
+    <div class="status"><span class="spin"></span>Forging questions from the live archive…</div>
+  </div>`;
+  let qs;
+  try{ qs = await buildQuestions(scopeTitle); }
+  catch(e){ app.innerHTML = `<div class="quiz-shell">${FAIL_NOTE}<button class="back" onclick="location.hash='#/'">← Back to the map</button></div>`; return; }
+  if(!qs.length){ app.innerHTML = `<div class="quiz-shell">${FAIL_NOTE}</div>`; return; }
+
+  let i=0, score=0, streak=0;
+  const shell = ()=>`<div class="quiz-shell">
+    <div class="q-top">
+      <span class="q-score">Score <b>${score}</b>/${qs.length}</span>
+      <span class="q-streak">Streak <b>${streak>1?streak+' 🔥':streak}</b></span>
+      <span class="q-score">${i+1} of ${qs.length}</span>
+    </div>
+    <div class="q-bar"><i style="width:${(i/qs.length)*100}%"></i></div>
+    <div class="q-card" id="qcard"></div>
+  </div>`;
+
+  function draw(){
+    if(i>=qs.length){ return final(); }
+    app.innerHTML = shell();
+    const q = qs[i];
+    const card = document.getElementById('qcard');
+    card.innerHTML = `
+      <div class="q-kind">${esc(q.kind)}</div>
+      ${q.img?`<div class="q-img"><img src="${esc(q.img)}" alt=""></div>`:''}
+      <h3>${esc(q.text)}</h3>
+      <div class="q-opts">${q.opts.map(o=>`<button class="q-opt">${esc(o)}</button>`).join('')}</div>
+      <div id="qwhy"></div>`;
+    card.querySelectorAll('.q-opt').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const right = btn.textContent === q.answer;
+        card.querySelectorAll('.q-opt').forEach(b=>{
+          b.disabled = true;
+          if(b.textContent===q.answer) b.classList.add('right');
+        });
+        if(right){
+          score++; streak++; sfx('right');
+          const r = btn.getBoundingClientRect();
+          confettiBurst(r.left+r.width/2, r.top);
+        } else { streak=0; btn.classList.add('wrong'); sfx('wrong'); }
+        document.getElementById('qwhy').innerHTML = `
+          <p class="q-why">${right?'Correct! ':''}${esc(q.why)}</p>
+          <button class="q-next">${i+1<qs.length?'Next question →':'See my result →'}</button>`;
+        card.querySelector('.q-next').addEventListener('click', ()=>{ i++; draw(); });
+      });
+    });
+  }
+  function final(){
+    const pct = Math.round(score/qs.length*100);
+    const word = pct===100?'Griot level. Flawless.':pct>=70?'Strong. The ancestors nod.':pct>=40?'Solid start — the map awaits.':'Every explorer starts somewhere.';
+    app.innerHTML = `<div class="quiz-shell"><div class="q-card q-final">
+      <div class="big">${score}/${qs.length}</div>
+      <p style="font-size:19px;margin:10px 0 22px">${word}</p>
+      <button class="cta hot" style="margin:0" id="again">Run it back</button>
+      <button class="cta" style="margin:0 0 0 8px" id="map">Explore the map</button>
+      ${shareBar(`I scored ${score}/${qs.length} on the ÌTÀN African history quiz 🌍 Think you can beat me?`)}
+    </div></div>`;
+    bindShare(app);
+    if(pct>=70){ sfx('win'); confettiBurst(innerWidth/2, innerHeight/3); }
+    document.getElementById('again').addEventListener('click', ()=>renderQuiz(scopeTitle));
+    document.getElementById('map').addEventListener('click', ()=>location.hash='#/');
+  }
+  draw();
+}
+
+/* ---------- INDEX ---------- */
 let INDEX_DATA = null;
+const IDX_COLORS = ['var(--west)','var(--south)','var(--horn)','var(--east)','var(--north)','var(--sahara)'];
 async function renderIndex(){
   setNav('index');
   app.innerHTML = `
     <div class="section-head" style="margin-top:34px"><span class="k">The long roll</span>
     <h2>Every people the archive knows</h2></div>
-    <p style="color:var(--raffia-dim);max-width:640px">Discovered live from Wikidata — peoples indigenous to the African continent,
-    ordered by how widely the world has written about them. The list grows as the archive grows.</p>
+    <p style="color:var(--cream-dim);max-width:640px">Discovered live from Wikidata — peoples indigenous to the African continent,
+    ordered by how widely the world has written about them.</p>
     <input class="search" id="q" type="search" placeholder="Search peoples — Fon, Maasai, San, Tigray…" aria-label="Search peoples">
     <div id="list"><div class="status"><span class="spin"></span>Calling the roll — this query walks the whole continent…</div></div>
   `;
@@ -615,10 +1404,10 @@ async function renderIndex(){
       const j = await sparql(q);
       const seen = new Set();
       INDEX_DATA = j.results.bindings.map(b=>({
-        qid: b.item.value.split('/').pop(),
-        name: b.itemLabel.value,
-        country: b.country ? b.country.value : '',
-        title: decodeURIComponent(b.article.value.split('/wiki/')[1]).replace(/_/g,' ')
+        qid:b.item.value.split('/').pop(),
+        name:b.itemLabel.value,
+        country:b.country?b.country.value:'',
+        title:decodeURIComponent(b.article.value.split('/wiki/')[1]).replace(/_/g,' ')
       })).filter(x=>{ if(seen.has(x.qid)) return false; seen.add(x.qid); return !/^Q\d+$/.test(x.name); });
     }
     drawIndex(INDEX_DATA);
@@ -626,13 +1415,12 @@ async function renderIndex(){
       const v = e.target.value.trim().toLowerCase();
       drawIndex(INDEX_DATA.filter(x=>x.name.toLowerCase().includes(v)||x.country.toLowerCase().includes(v)));
     });
-  }catch(e){
-    list.innerHTML = FAIL_NOTE;
-  }
+  }catch(e){ list.innerHTML = FAIL_NOTE; }
+
   function drawIndex(rows){
-    list.innerHTML = `<p class="mono" style="font-size:11px;letter-spacing:.1em;color:var(--raffia-dim);margin-bottom:12px">${rows.length} PEOPLES ON THE ROLL</p>
-      <div class="idx-grid">${rows.map(x=>`
-      <button class="idx-item" data-t="${esc(x.title)}">
+    list.innerHTML = `<p class="mono" style="font-size:11px;letter-spacing:.1em;color:var(--cream-dim);margin-bottom:12px">${rows.length} PEOPLES ON THE ROLL</p>
+      <div class="idx-grid">${rows.map((x,n)=>`
+      <button class="idx-item" data-t="${esc(x.title)}" style="--ac:${IDX_COLORS[n%6]}">
         <div class="nm">${esc(x.name)}</div>
         <div class="c">${esc(x.country||'Africa')}</div>
       </button>`).join('')}</div>`;
@@ -642,32 +1430,27 @@ async function renderIndex(){
   }
 }
 
+/* ---------- ABOUT ---------- */
 function renderAbout(){
   setNav('about');
   app.innerHTML = `
-    <div class="section-head" style="margin-top:34px">
-      <span class="k">About</span><h2>Why ÌTÀN exists</h2>
-    </div>
-    <article class="prose">
-      <p class="lede">Most history apps tell Africa's story through borders drawn
-      by other people. ÌTÀN starts where the story actually starts — with the
-      peoples themselves. The Yoruba before Nigeria. The Zulu before the colony.
-      The kingdoms, migrations, and art that the map lines were drawn over.</p>
-      <p>Nothing here is written by us. Every word, image, and date is fetched
-      live from open archives — Wikipedia and Wikidata — the moment you ask for
-      it. We built the lens; the record speaks for itself.</p>
-      <h3>Who we are</h3>
-      <p><b>Israel Adigun</b> — Software Developer. Computer Science,
-      University of Wisconsin–Milwaukee.</p>
-      <p><b>Afolabi Raheem Kehinde</b> — Medical graduate, Kursk State
-      Medical University.</p>
-      <p>Two graduates, one shared idea: the continent's history deserves an
-      atlas built around its peoples.</p>
+    <div class="section-head" style="margin-top:34px"><span class="k">About</span><h2>Why ÌTÀN exists</h2></div>
+    <article class="prose" style="--rc:var(--west)">
+      <p class="lede">Most history apps tell Africa's story through borders drawn by other people.
+      ÌTÀN starts where the story actually starts — with the peoples themselves. The Yoruba before Nigeria.
+      The Zulu before the colony. The kingdoms, migrations, and art that the map lines were drawn over.</p>
+      <p>Nothing here is written by us. Every word, image, and date is fetched live from open archives —
+      Wikipedia and Wikidata — the moment you ask for it. We built the lens; the record speaks for itself.</p>
+      <h3 style="font-family:'Bricolage Grotesque',sans-serif;color:var(--west);margin:30px 0 10px">Who we are</h3>
+      <p><b>Israel Adigun</b> — Software Developer. Computer Science, University of Wisconsin–Milwaukee.</p>
+      <p><b>Afolabi Raheem Kehinde</b> — Medical graduate, Kursk State Medical University.</p>
+      <p>Two graduates, one shared idea: the continent's history deserves an atlas built around its peoples.</p>
     </article>
     <button class="back" onclick="location.hash='#/'">← Back to the map</button>`;
 }
 
 route();
+updateProg();
 </script>
 </body>
 </html>
