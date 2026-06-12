@@ -6,6 +6,15 @@
 <title>ÌTÀN — Atlas of African Peoples</title>
 <meta name="author" content="Israel Adigun & Afolabi Raheem Kehinde">
 <meta name="description" content="A living atlas of African peoples, kingdoms and histories — every word fetched live from open archives.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ÌTÀN — Atlas of African Peoples">
+<meta property="og:title" content="ÌTÀN — Atlas of African Peoples">
+<meta property="og:description" content="African history told by its peoples — kingdoms, timelines and expeditions, fetched live from the open archive.">
+<meta property="og:image" content="https://israel1jol.github.io/itan/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://israel1jol.github.io/itan/og/default.png">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -550,8 +559,9 @@ function confettiBurst(x, y){
   }
 }
 
-function shareBar(text, hash){
-  const url = location.origin + location.pathname + (hash || location.hash || '');
+function slugOf(name){ return name.toLowerCase(); }
+function shareBar(text, sharePath){
+  const url = new URL(sharePath, location.href).href;
   const enc = encodeURIComponent;
   return `<div class="share-row">
     <button class="share-btn" data-share="native" data-text="${esc(text)}" data-url="${esc(url)}">Share 📤</button>
@@ -563,6 +573,7 @@ function shareBar(text, hash){
        href="https://www.facebook.com/sharer/sharer.php?u=${enc(url)}&quote=${enc(text)}">Facebook</a>
   </div>`;
 }
+
 function bindShare(scope){
   scope.querySelectorAll('[data-share="native"]').forEach(b=>{
     b.addEventListener('click', async ()=>{
@@ -773,7 +784,8 @@ function finishExpedition(){
     <div class="badges">${[...EX.badges].map(b=>`<span class="badge">${esc(b)}</span>`).join('')}</div>
     <button class="cta hot" style="margin:0" id="fin-map">Choose your next expedition</button>
     <button class="cta" style="margin:0 0 0 8px" id="fin-stay">Keep exploring</button>
-    ${shareBar(`Expedition complete: I reached ${rankFor(EX.xp)} rank exploring the ${EX_TITLE} on ÌTÀN 👑`)}
+    ${shareBar(`Expedition complete: I reached ${rankFor(EX.xp)} rank exploring the ${EX_TITLE} on ÌTÀN 👑`,
+      `share/${slugOf(EX_TITLE)}.html`)}
   </div>`;
   document.body.appendChild(wrap);
   bindShare(wrap);
@@ -1207,7 +1219,8 @@ async function startLightning(reg, rc){
         <div class="big">${ok} ⚡</div>
         <p style="margin:8px 0 18px">${ok} correct out of ${total} in 45 seconds${ok>=8?' — storm caller!':''}</p>
         <button class="lr-start" id="lr-again">Run it back ⚡</button>
-        ${shareBar(`${ok} correct in 45 seconds on the ÌTÀN Lightning Round ⚡ Beat that.`, '#/quiz/'+encodeURIComponent(reg.title))}
+        ${shareBar(`${ok} correct in 45 seconds on the ÌTÀN Lightning Round ⚡ Beat that.`,
+      `share/${slugOf(reg.name)}.html?go=quiz`)}
       </div>`;
     bindShare(box);
     if(ok>=5){ sfx('win'); confettiBurst(innerWidth/2, innerHeight/2); }
@@ -1367,7 +1380,8 @@ async function renderQuiz(scopeTitle){
       <p style="font-size:19px;margin:10px 0 22px">${word}</p>
       <button class="cta hot" style="margin:0" id="again">Run it back</button>
       <button class="cta" style="margin:0 0 0 8px" id="map">Explore the map</button>
-      ${shareBar(`I scored ${score}/${qs.length} on the ÌTÀN African history quiz 🌍 Think you can beat me?`)}
+      ${shareBar(`I scored ${score}/${qs.length} on the ÌTÀN African history quiz 🌍 Think you can beat me?`,
+      scope ? `share/${slugOf(scope.name)}.html?go=quiz` : 'share/quiz.html')}
     </div></div>`;
     bindShare(app);
     if(pct>=70){ sfx('win'); confettiBurst(innerWidth/2, innerHeight/3); }
