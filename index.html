@@ -518,11 +518,11 @@ function confettiBurst(x, y){
   }
 }
 
-function shareBar(text){
+function shareBar(text, hash){
   const url = location.origin + location.pathname + (hash || location.hash || '');
   const enc = encodeURIComponent;
   return `<div class="share-row">
-    <button class="share-btn" data-share="native" data-text="${esc(text)}">Share 📤</button>
+    <button class="share-btn" data-share="native" data-text="${esc(text)}" data-url="${esc(url)}">Share 📤</button>
     <a class="share-btn" target="_blank" rel="noopener"
        href="https://twitter.com/intent/tweet?text=${enc(text)}&url=${enc(url)}">X</a>
     <a class="share-btn" target="_blank" rel="noopener"
