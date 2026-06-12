@@ -1220,7 +1220,7 @@ async function startLightning(reg, rc){
         <p style="margin:8px 0 18px">${ok} correct out of ${total} in 45 seconds${ok>=8?' — storm caller!':''}</p>
         <button class="lr-start" id="lr-again">Run it back ⚡</button>
         ${shareBar(`${ok} correct in 45 seconds on the ÌTÀN Lightning Round ⚡ Beat that.`,
-      `share/${slugOf(reg.name)}.html?go=quiz`)}
+  `share/${slugOf(reg.name)}.html`)}
       </div>`;
     bindShare(box);
     if(ok>=5){ sfx('win'); confettiBurst(innerWidth/2, innerHeight/2); }
