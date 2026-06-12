@@ -519,7 +519,7 @@ function confettiBurst(x, y){
 }
 
 function shareBar(text){
-  const url = location.origin + location.pathname;
+  const url = location.origin + location.pathname + (hash || location.hash || '');
   const enc = encodeURIComponent;
   return `<div class="share-row">
     <button class="share-btn" data-share="native" data-text="${esc(text)}">Share 📤</button>
@@ -534,7 +534,7 @@ function shareBar(text){
 function bindShare(scope){
   scope.querySelectorAll('[data-share="native"]').forEach(b=>{
     b.addEventListener('click', async ()=>{
-      const url = location.origin + location.pathname;
+      const url = b.dataset.url;
       const text = b.dataset.text;
       if(navigator.share){
         try{ await navigator.share({title:'ÌTÀN', text, url}); }catch(e){}
@@ -1209,7 +1209,7 @@ async function startLightning(reg, rc){
         <div class="big">${ok} ⚡</div>
         <p style="margin:8px 0 18px">${ok} correct out of ${total} in 45 seconds${ok>=8?' — storm caller!':''}</p>
         <button class="lr-start" id="lr-again">Run it back ⚡</button>
-        ${shareBar(`${ok} correct in 45 seconds on the ÌTÀN Lightning Round ⚡ Beat that.`)}
+        ${shareBar(`${ok} correct in 45 seconds on the ÌTÀN Lightning Round ⚡ Beat that.`, '#/quiz/'+encodeURIComponent(reg.title))}
       </div>`;
     bindShare(box);
     if(ok>=5){ sfx('win'); confettiBurst(innerWidth/2, innerHeight/2); }
