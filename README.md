@@ -4,8 +4,6 @@
 
 A living atlas of African history organized the way it should be — around **peoples**, not colonial borders. The Yoruba before Nigeria. The Zulu before the colony. And it doesn't just tell the history — it turns every people's story into a playable expedition.
 
-**Live site:** https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/
-
 ## How it works
 
 Nothing on the site is written by us, and nothing is hardcoded. Every word, image, date — and every quiz question — is generated live from open archives at the moment you ask:
