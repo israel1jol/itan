@@ -44,14 +44,10 @@ Finish all four and the expedition completes — then there are eleven more peop
 ## Run it locally
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
-cd YOUR-REPO-NAME
-# open index.html in a browser — that's the whole stack
+git clone https://github.com/israel1jol/itan.git
+cd itan
+# open index.html in a browser
 ```
-
-## Deploy
-
-GitHub Pages: Settings → Pages → Deploy from a branch → `main` / root.
 
 ## Roadmap
 
