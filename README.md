@@ -44,7 +44,7 @@ Finish all four and the expedition completes — then there are eleven more peop
 ## Run it locally
 
 ```bash
-git clone https://github.com/israel1jol/itan.git
+git clone https://github.com/israeladigun/itan.git
 cd itan
 # open index.html in a browser
 ```
